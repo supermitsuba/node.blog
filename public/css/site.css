@@ -1,0 +1,236 @@
+
+li.optional
+{
+    display:inline-block;
+    width:105px;
+}
+
+body
+{
+    margin: auto;
+    width:90%;
+    opacity: 0.95;
+    background-color: #DCE1C2;
+    background-size: 800px 747px;
+    background-repeat: no-repeat;
+}
+.navbar-default {
+	background-color: #3a0500;
+	border-color: #f7e5d2;
+}
+.navbar-default .navbar-brand {
+	color: #d29554;
+}
+.navbar-default .navbar-brand:hover, .navbar-default .navbar-brand:focus {
+	color: #994500;
+}
+.navbar-default .navbar-text {
+	color: #d29554;
+}
+.navbar-default .navbar-nav > li > a {
+	color: #d29554;
+}
+.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
+	color: #994500;
+}
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {
+	color: #994500;
+	background-color: #f7e5d2;
+}
+.navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus {
+	color: #994500;
+	background-color: #f7e5d2;
+}
+.navbar-default .navbar-toggle {
+	border-color: #f7e5d2;
+}
+.navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus {
+	background-color: #f7e5d2;
+}
+.navbar-default .navbar-toggle .icon-bar {
+	background-color: #d29554;
+}
+.navbar-default .navbar-collapse,
+.navbar-default .navbar-form {
+	border-color: #d29554;
+}
+.navbar-default .navbar-link {
+	color: #d29554;
+}
+.navbar-default .navbar-link:hover {
+	color: #994500;
+}
+
+@media (max-width: 1000px) {
+	.navbar-default .navbar-nav .open .dropdown-menu > li > a {
+		color: #d29554;
+	}
+	.navbar-default .navbar-nav .open .dropdown-menu > li > a:hover, .navbar-default .navbar-nav .open .dropdown-menu > li > a:focus {
+		color: #994500;
+	}
+	.navbar-default .navbar-nav .open .dropdown-menu > .active > a, .navbar-default .navbar-nav .open .dropdown-menu > .active > a:hover, .navbar-default .navbar-nav .open .dropdown-menu > .active > a:focus {
+		color: #994500;
+		background-color: #f7e5d2;
+	}
+
+	aside
+	{
+		display: none;
+	}
+}
+    div.header h1
+    {
+        padding-left: 10px;
+        padding-top: 5px;
+        width: 180px;
+        text-align: left;
+    }
+
+        div.header h1 span
+        {
+            font-size: 16px;
+            text-align: left;
+        }
+
+pre.formatCode, div.comments div pre
+{
+    word-break:break-word;
+}
+
+aside div
+{
+    margin-top: 10px;
+}
+
+section
+{
+    height: auto;
+    min-height: 700px;
+    padding: 10px;
+}
+
+footer
+{
+    height: 100px;
+}
+
+div.content
+{
+    color: #040404;
+    border: 1px solid #550303;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+img.img-left
+{
+    float: left;
+    width: 125px;
+    height: 125px;
+    margin: 10px;
+}
+
+img.img-right
+{
+    float: right;
+    width: 125px;
+    height: 125px;
+    margin: 10px;
+}
+
+.text-left
+{
+    text-align: left;
+}
+
+.text-center
+{
+    text-align: center;
+}
+
+aside.aside-left nav ul
+{
+    list-style-type: none;
+}
+
+#Events
+{
+    text-align: left;
+    list-style-type: disk;
+}
+
+#Categories
+{
+    text-align: left;
+    list-style-type: disk;
+}
+
+.blogSummary
+{
+    text-align: left;
+}
+
+.spinning-icon
+{
+    height:64px;
+    background-image:url('../img/301.gif');
+        background-repeat:no-repeat;
+}
+
+.loading-icon
+{
+    height:64px;
+    background-image:url('../img/294.gif');
+    background-repeat:no-repeat;
+}
+
+.commentPost .label
+{
+    display: inline-block;
+    width: 125px;
+    vertical-align: top;
+    text-align: right;
+    margin-right: 10px;
+}
+
+.commentPost input[type="text"], .commentPost textarea
+{
+    border: none;
+    width: 300px;
+    padding: 5px;
+}
+
+.commentPost a
+{
+    margin-left: 145px;
+}
+
+.commentPost input[name="address"]
+{
+    display: none;
+}
+
+.commentPost .address
+{
+    display: none;
+}
+
+.commentPost .loading
+{
+    display: none;
+}
+
+.MoreCommentsButton
+{
+    display: none;
+}
+.commentNumber
+{
+    padding-top:10px;
+}
+
+.comments h3
+{
+    display: inline;
+    padding-right:10px;
+}

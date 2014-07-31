@@ -1,0 +1,13 @@
+<% for(var i=0; i< blog.length; i++) { 
+	var d = new Date(blog[i].DateOfArticle);
+	var month =d.getMonth()+1;
+    var url = blog[i].Title.split(' ').join('_');
+%>
+	<div>
+		<h2><a href='/title/<%= url %>'><%= blog[i].Title %></a></h2>
+		<div>Date: <%= month +"/"+d.getDate() +"/" +d.getFullYear() %> <strong>by <a href="mailto:supermitsuba@gmail.com"><%= blog[i].AuthorName %></a></strong></div>
+		<div>Category: <%= blog[i].PartitionKey %> </div>
+		<div><%- blog[i].Summary %></div>
+		<div class='commentNumber'><a href='/title/<%= url %>#comments'>Comment Section</a></div>
+    </div>
+<% } %>

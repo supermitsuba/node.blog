@@ -1,0 +1,18 @@
+﻿<% for(var i = 0; i< appSections.length; i++){ 
+%>
+    <div class="tile-group" style="width: auto; max-width: 2000px">
+        <h2 class="<%-appSections[i].SectionTitleColor %>"><%-appSections[i].SectionTitle %></h2>
+        <% for(var j = 0; j< appSections[i].Tiles.length; j++){ 
+    
+        %>
+            <a href="<%-appSections[i].Tiles[j].Href %>" class="tile outline-color-yellow <%- appSections[i].Tiles[j].BackgroundColor %>">
+                <div class="tile-content">
+                    <%-appSections[i].Tiles[j].Content %>
+                </div>
+                <div class="brand">
+                    <span class="name"><%-appSections[i].Tiles[j].Name %></span>
+                </div>
+            </a>
+        <% } %>
+    </div>
+<% } %>

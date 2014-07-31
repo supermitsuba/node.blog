@@ -1,0 +1,9 @@
+<ul>
+	<% for(var i=0; i<category.length; i++) { %>
+             <li>
+                     <a href='/category/<%= category[i].PartitionKey %>'>
+	                <%= category[i].PartitionKey %>
+            		</a>
+       	</li>
+	<% } %>
+</ul>
