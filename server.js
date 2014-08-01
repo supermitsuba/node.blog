@@ -50,7 +50,7 @@ function main() {
   var server = http.createServer(app);
 
   // Load all routes.
-  require('./routes')(app, blogProvider);
+  require('./routes')(app, blogProvider, smtpTransport);
 
   // Listen on http port.
   server.listen(process.env.PORT);

@@ -5,7 +5,7 @@
 var fs = require('fs');
 var path = require('path');
 
-module.exports = function (app, dataProvider) {
+module.exports = function (app, dataProvider, smtpProvider) {
 
 
   fs.readdirSync('./routes/API').forEach(function (file) {
@@ -13,7 +13,7 @@ module.exports = function (app, dataProvider) {
     if (file === path.basename(__filename)) { return; }
 
     // Load the route file.
-    require('./API/' + file)(app, dataProvider);
+    require('./API/' + file)(app, dataProvider, smtpProvider);
 
     if(process.env.DEBUGLOGGING){
       console.log('Loading API: %s', file);
@@ -25,7 +25,7 @@ module.exports = function (app, dataProvider) {
     if (file === path.basename(__filename)) { return; }
 
     // Load the route file.
-    require('./Site/' + file)(app, dataProvider);
+    require('./Site/' + file)(app, dataProvider, smtpProvider);
 
     if(process.env.DEBUGLOGGING){
       console.log('Loading Site: %s', file);
