@@ -1,6 +1,9 @@
 var azure = require('azure');
 
 BlogProvider = function (debug, ac, akey) {
+    if(process.env.DEBUGLOGGING){
+        console.log('Connecting to database.');
+    }
     var retryOperations = new azure.ExponentialRetryPolicyFilter();
     this.tableService = azure.createTableService(ac, akey).withFilter(retryOperations);
     this.debug = debug;

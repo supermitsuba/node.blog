@@ -1,6 +1,6 @@
 require('./config');
 require('./.config');
-var BlogProvider = require('./services/blogprovider').BlogProvider;
+var BlogProvider = require('./services/BlogProvider').BlogProvider;
 var BundleUp = require('bundle-up2');    
 var express = require('express');
 var path = require('path');
@@ -50,7 +50,7 @@ function main() {
   var server = http.createServer(app);
 
   // Load all routes.
-  require('./routes')(app);
+  require('./routes')(app, blogProvider);
 
   // Listen on http port.
   server.listen(process.env.PORT);
