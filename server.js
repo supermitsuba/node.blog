@@ -23,9 +23,9 @@ function main() {
   var connectionString = JSON.parse(process.env.MYSQLCONNSTR_TableConnection);
   var blogProvider = new BlogProvider(process.env.DEBUGLOGGING, connectionString.ac, connectionString.akey);
   var smtpTransport = emailer.createTransport("SMTP",{
-    service: "Gmail",
+    service: process.env.EMAILSERVICE,
     auth: {
-        user: "fbombcode@gmail.com",
+        user: process.env.EMAILADDRESS,
         pass: connectionString.emailPassword //
     }
   });

@@ -1,11 +1,9 @@
 
 var validator = require('validator').sanitize;
-var ejs = require('ejs');
 var path = require('path');
 var appDir = path.dirname(require.main.filename);
-var cache = require('memory-cache');
-var fs = require('fs');
 var und = require(path.join(appDir,'/services/underscore'));
+var helper = require(path.join(appDir,'/services/Helper'));
 var dataProvider = null;
 var smtpProvider = null;
 
@@ -41,7 +39,7 @@ function GetAllArticles(req, res) {
             var d = und.sortBy(data, function (item) { return item.DateOfArticle; }).reverse();
                 d = und.filter(d, function (item) { return item.PartitionKey != 'Project' && item.PartitionKey != 'AboutMe'; });
 
-            res.render('layout', { description: 'The list of blog articles and summary of each.', body: "<div class=\"blogSummary\">" + LoadTemplate(filePath, { blog: d }) + "</div>", title: "F Bomb Code Blog Summary" });
+            res.render('layout', { description: 'The list of blog articles and summary of each.', body: "<div class=\"blogSummary\">" + helper.LoadTemplate(filePath, { blog: d }) + "</div>", title: "F Bomb Code Blog Summary" });
             res.end();
         },
         TableName: 'article',
@@ -49,7 +47,7 @@ function GetAllArticles(req, res) {
         Parameters: null
     }
 
-    ProcessRoute(RenderDataWithSession, res, RenderObject, 'Home');
+    helper.ProcessRoute(helper.RenderDataWithSession, res, RenderObject, 'Home', dataProvider);
 };
 
 function GetArticleByPage(req, res) {
@@ -78,11 +76,11 @@ function GetArticleByPage(req, res) {
         }
         else {
             RenderObject.StoredProcedureParameters = [categoryId, 0];
-            ProcessRoute(RenderDataWithSession, res, RenderObject, 'Home');
+            helper.ProcessRoute(helper.RenderDataWithSession, res, RenderObject, 'Home', dataProvider);
         }
     }
     else {
-        ProcessRoute(RenderDataWithSession, res, RenderObject, 'Home');
+        helper.ProcessRoute(helper.RenderDataWithSession, res, RenderObject, 'Home', dataProvider);
     }
 }
 
@@ -101,7 +99,7 @@ function GetArticleByTitle(req, res) {
 
             var description = '' + d.Summary;
             res.set('Cache-Control', 'no-cache');
-            res.render('layout', { description: description.substring(0, 147) + '...', body: "<div class=\"blogSummary\">" + LoadTemplate(filePath, { post: d, url: req.headers.host }) + "</div>", title: d.Title });
+            res.render('layout', { description: description.substring(0, 147) + '...', body: "<div class=\"blogSummary\">" + helper.LoadTemplate(filePath, { post: d, url: req.headers.host }) + "</div>", title: d.Title });
             res.end();
         },
         TableName: 'article',
@@ -109,7 +107,7 @@ function GetArticleByTitle(req, res) {
         Parameters: null
     }
 
-    ProcessRoute(RenderDataWithSession, res, RenderObject, "Blog with title :'" + BlogTitle + "'");
+    helper.ProcessRoute(helper.RenderDataWithSession, res, RenderObject, "Blog with title :'" + BlogTitle + "'", dataProvider);
 }
 
 function GetAllProjects(req, res) {
@@ -125,7 +123,7 @@ function GetAllProjects(req, res) {
             d = und.sortBy(d, function (item) { return item.DateOfArticle; }).reverse();
 
             var filePath = path.join(appDir, 'public/partials/BlogSummary.html');
-            res.render('layout', { description: 'This is a list of projects I have created as hobbies of mine.', body: "<div class=\"blogSummary\">" + LoadTemplate(filePath, { blog: d }) + "</div>", title: "F Bomb Code Blog Summary" });
+            res.render('layout', { description: 'This is a list of projects I have created as hobbies of mine.', body: "<div class=\"blogSummary\">" + helper.LoadTemplate(filePath, { blog: d }) + "</div>", title: "F Bomb Code Blog Summary" });
             res.end();
         },
         TableName: 'article',
@@ -133,7 +131,7 @@ function GetAllProjects(req, res) {
         Parameters: null
     }
 
-    ProcessRoute(RenderDataWithSession, res, RenderObject, 'Projects');
+    helper.ProcessRoute(helper.RenderDataWithSession, res, RenderObject, 'Projects', dataProvider);
 }
 
 function GetArticlesByCategory(req, res) {
@@ -148,7 +146,7 @@ function GetArticlesByCategory(req, res) {
             var d = und.where(data, { PartitionKey: categoryId })
                 d = und.sortBy(d, function (item) { return item.DateOfArticle; }).reverse();
             var filePath = path.join(appDir, 'public/partials/BlogSummary.html');
-            res.render('layout', { description: 'The list of blog articles and summary of each.', body: "<div class=\"blogSummary\">" + LoadTemplate(filePath, { blog: d }) + "</div>", title: "F Bomb Code Blog Summary" });
+            res.render('layout', { description: 'The list of blog articles and summary of each.', body: "<div class=\"blogSummary\">" + helper.LoadTemplate(filePath, { blog: d }) + "</div>", title: "F Bomb Code Blog Summary" });
             res.end();
         },
         TableName: 'article',
@@ -156,7 +154,7 @@ function GetArticlesByCategory(req, res) {
         Parameters: null
     }
 
-    ProcessRoute(RenderDataWithSession, res, RenderObject, 'Category with an id: ' + categoryId);
+    helper.ProcessRoute(helper.RenderDataWithSession, res, RenderObject, 'Category with an id: ' + categoryId, dataProvider);
 }
 
 function AboutMe(req, res) {
@@ -174,7 +172,7 @@ function AboutMe(req, res) {
         Parameters: null
     }
 
-    ProcessRoute(RenderDataWithSession, res, RenderObject, 'About Me');
+    helper.ProcessRoute(helper.RenderDataWithSession, res, RenderObject, 'About Me', dataProvider);
 }
 
 function GetAllEvents(req, res) {
@@ -190,7 +188,7 @@ function GetAllEvents(req, res) {
  
             var filePath = path.join(appDir, 'public/partials/Event.html');
             res.set('Cache-Control', 'no-cache');
-            res.render('layout', { description: 'These are events I have recognized and wanted to share.  I do attend these and they should be great places for information.', body: "<div class=\"blogSummary\">" + LoadTemplate(filePath, { event: d }) + "</div>", title: 'Events I Know About' });
+            res.render('layout', { description: 'These are events I have recognized and wanted to share.  I do attend these and they should be great places for information.', body: "<div class=\"blogSummary\">" + helper.LoadTemplate(filePath, { event: d }) + "</div>", title: 'Events I Know About' });
             res.end();
         },
         TableName: 'event',
@@ -198,7 +196,7 @@ function GetAllEvents(req, res) {
         Parameters: null
     }
 
-    ProcessRoute(RenderDataNoCache, res, RenderObject, 'Events');
+    helper.ProcessRoute(helper.RenderDataNoCache, res, RenderObject, 'Events', dataProvider);
 }
 
 function GetAllCategories(req, res) {
@@ -219,7 +217,7 @@ function GetAllCategories(req, res) {
             else {
                 d = app.get('category');
             }
-            res.render('layout', { description: 'The categories of articles hosted on the site.', body: "<div class=\"blogSummary\">" + LoadTemplate(filePath, { category: d }) + "</div>", title: 'Categories of Articles' });
+            res.render('layout', { description: 'The categories of articles hosted on the site.', body: "<div class=\"blogSummary\">" + helper.LoadTemplate(filePath, { category: d }) + "</div>", title: 'Categories of Articles' });
             res.end();
         },
         TableName: 'article',
@@ -227,7 +225,7 @@ function GetAllCategories(req, res) {
         Parameters: null
     }
 
-    ProcessRoute(RenderDataWithSession, res, RenderObject, 'Categories');
+    helper.ProcessRoute(helper.RenderDataWithSession, res, RenderObject, 'Categories', dataProvider);
 }
 
 function GetArticleById(req, res) {
@@ -241,7 +239,7 @@ function GetArticleById(req, res) {
             d = und.find(data, function (item) { return item.RowKey === BlogId; });
 
             res.set('Cache-Control', 'no-cache');
-            res.render('layout', { description: d.Summary.substring(0, 147) + '...', body: "<div class=\"blogSummary\">" + LoadTemplate(filePath, { post: d, url: req.headers.host }) + "</div>", title: d.Title });
+            res.render('layout', { description: d.Summary.substring(0, 147) + '...', body: "<div class=\"blogSummary\">" + helper.LoadTemplate(filePath, { post: d, url: req.headers.host }) + "</div>", title: d.Title });
             res.end();
         },
         TableName: 'article',
@@ -250,10 +248,10 @@ function GetArticleById(req, res) {
     }
 
     if (isNaN(BlogId)) {
-        DisplayErrorPage(res);
+        helper.DisplayErrorPage(res);
     }
     else {
-        ProcessRoute(RenderDataWithSession, res, RenderObject, "Blog with blogId :'" + BlogId + "'");
+        helper.ProcessRoute(helper.RenderDataWithSession, res, RenderObject, "Blog with blogId :'" + BlogId + "'", dataProvider);
     }
 }
 
@@ -281,10 +279,10 @@ function GetArticlesCommentsByPage(req, res) {
     }
 
     if (isNaN(blogId) && isNaN(page)) {
-        DisplayErrorPage(res);
+        helper.DisplayErrorPage(res);
     }
     else {
-        ProcessRoute(RenderDataWithSession, res, RenderObject, "comments with blogId:'" + blogId + "', page:'" + paging + "'");
+        helper.ProcessRoute(helper.RenderDataWithSession, res, RenderObject, "comments with blogId:'" + blogId + "', page:'" + paging + "'", dataProvider);
     }
 }
 
@@ -308,7 +306,7 @@ function Search(req, res) {
         Parameters: null
     }
 
-    ProcessRoute(RenderDataNoCache, res, RenderObject, "search with search parameter:'" + searchParameter + "'");
+    helper.ProcessRoute(helper.RenderDataNoCache, res, RenderObject, "search with search parameter:'" + searchParameter + "'", dataProvider);
 }
 
 function rss(req, res) {
@@ -324,7 +322,7 @@ function rss(req, res) {
             d = und.filter(d, function (item) { return item.PartitionKey != 'Project' && item.PartitionKey != 'AboutMe'; });
 
             res.set('Content-Type', 'application/xml');
-            res.send(LoadTemplate(filePath, { rss: d }));
+            res.send(helper.LoadTemplate(filePath, { rss: d }));
             res.end();
         },
         TableName: 'article',
@@ -332,7 +330,7 @@ function rss(req, res) {
         Parameters: null
     }
 
-    ProcessRoute(RenderDataWithSession, res, RenderObject, "rss");
+    helper.ProcessRoute(helper.RenderDataWithSession, res, RenderObject, "rss", dataProvider);
 }
 
 function CreateComment(req, res) {
@@ -409,143 +407,4 @@ function CreateComment(req, res) {
         res.send("");
         res.end();
     });
-}
-
-
-function RenderDataWithSession(obj) {
-
-    if (cache.get(obj.AppKey) != null) {
-        if (process.env.DEBUGLOGGING) {
-            console.log(obj.MethodName + ' has cache');
-        }
-
-        var data = cache.get(obj.AppKey);
-        
-        if(obj.cacheTime != null)
-        {
-            cache.del(obj.AppKey);
-            cache.put(obj.AppKey, data, obj.cacheTime);
-        }
-        obj.Render(data, '', obj.MethodName);
-    }
-    else {
-        if (process.env.DEBUGLOGGING) {
-            console.log(obj.MethodName + ' has no cache');
-        }
-
-        dataProvider.getQuery(obj, function (error, data) {
-
-            if (process.env.DEBUGLOGGING) {
-                console.log(obj.MethodName + ' successfully queried');
-            }
-
-            if (data != null) {
-                if (process.env.DEBUGLOGGING) {
-                    console.log(obj.MethodName + ' has data.');
-                }
-
-                if(obj.cacheTime != null ){
-                    cache.put(obj.AppKey, data, obj.cacheTime);
-                }
-                else{
-                    cache.put(obj.AppKey, data, 86400000);
-                }
-                obj.Render(cache.get(obj.AppKey), '', obj.MethodName);
-            }
-            else {
-                if (process.env.DEBUGLOGGING) {
-                    console.log(obj.MethodName + ' has no data.');
-                }
-
-                obj.Render('', '', obj.MethodName);
-            }
-        });
-    }
-}
-
-function RenderDataNoCache(obj) {
-
-    if (process.env.DEBUGLOGGING) {
-        console.log(obj.MethodName + ' has no cache');
-    }
-
-    dataProvider.getQuery(obj, function (error, data) {
-
-        if (process.env.DEBUGLOGGING) {
-            console.log(obj.MethodName + ' successfully queried');
-        }
-
-        if (data != null) {
-            if (process.env.DEBUGLOGGING) {
-                console.log(obj.MethodName + ' has data.');
-            }
-
-            obj.Render(data, '', obj.MethodName);
-        }
-        else {
-            if (process.env.DEBUGLOGGING) {
-                console.log(obj.MethodName + ' has no data.');
-            }
-
-            obj.Render('', '', obj.MethodName);
-        }
-    });
-}
-
-function LoadTemplate(filePath, data) {
-    var template = fs.readFileSync(filePath, 'utf8');
-    return ejs.render(template, data);
-}
-
-function ProcessRoute(functionToExecute, response, parametersToUse, name) {
-    if (process.env.DEBUGLOGGING) {
-        console.log("Starting " + name);
-        console.log("Parameters: " + JSON.stringify(parametersToUse));
-    }
-    response.etagify();
-
-    var i = 0;
-    while (i < 3) {
-        if (Retry(functionToExecute, parametersToUse)) {
-            break;
-        }
-        else {
-            i++;
-        }
-    }
-
-    if (i >= 3) {
-        if (process.env.DEBUGLOGGING) {
-            console.log("The number of retries were: " + i + ", so going to error out.");
-        }
-
-        DisplayErrorPage(response);
-    }
-
-    if (process.env.DEBUGLOGGING) {
-        console.log("Ending " + name);
-    }
-}
-
-function DisplayErrorPage(response) {
-    response.set('Cache-Control', 'no-cache');
-    response.render('Error', {});
-    response.end();
-}
-
-function Retry(myFunction, value1) {
-    var result = false;
-    try {
-        myFunction(value1);
-        result = true;
-    }
-    catch (err) {
-        result = false;
-        if (process.env.DEBUGLOGGING) {
-
-            console.log(err);
-            console.log('Failed to process...Retrying...');
-        }
-    }
-    return result;
 }
