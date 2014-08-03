@@ -6,21 +6,16 @@ var dataProvider = null;
 var smtpProvider = null;
 
 module.exports = function (app, database, smtp) {
-  	app.get('/api/articles', GetAllArticles);
-	app.get('/api/articles/:id', GetArticleById);
+  	app.get('/api/events', GetAllEvents);
 
   	dataProvider=database;
   	smtpProvider = smtp;  
 };
 
-function GetAllArticles(req, res){
-	//gets all articles By:
-		//search
-		//category
-		//type ( i.e. Project, AboutMe, etc. )
-		//also have a state for just summary
+function GetAllEvents(req, res){
+	//
 }
 
-function GetArticleById(req, res){
+function GetEventsById(req, res){
 
 }
