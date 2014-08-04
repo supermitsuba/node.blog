@@ -41,4 +41,18 @@ BlogProvider.prototype.addQuery = function (obj, callback) {
     });
 }
 
+BlogProvider.prototype.GetEntities = function(tableName, callback){
+    var query = azure.TableQuery
+                     .select()
+                     .from(tableName);//.top(10);
+    this.tableService.queryEntities(query, function(error, entities){    
+        if (this.debug) console.log('Got Connection ');
+            if (error) {
+                callback(error, null);
+            }
+    
+            callback(null, entities);
+        });
+}
+
 exports.BlogProvider = BlogProvider;
