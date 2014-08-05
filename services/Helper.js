@@ -1,83 +1,25 @@
-var cache = require('memory-cache');
 var fs = require('fs');
 var ejs = require('ejs');
 
-exports.RenderDataWithSession = function(obj, dataProvider) {
-
-    if (cache.get(obj.AppKey) != null) {
+exports.RenderData = function(obj, dataProvider) {
+    dataProvider.GetEntities(obj.TableName, function (error, data) {
         if (process.env.DEBUGLOGGING) {
-            console.log(obj.MethodName + ' has cache');
-        }
-
-        var data = cache.get(obj.AppKey);
-        
-        if(obj.cacheTime != null)
-        {
-            cache.del(obj.AppKey);
-            cache.put(obj.AppKey, data, obj.cacheTime);
-        }
-        obj.Render(data, '', obj.MethodName);
-    }
-    else {
-        if (process.env.DEBUGLOGGING) {
-            console.log(obj.MethodName + ' has no cache');
-        }
-
-        dataProvider.getQuery(obj, function (error, data) {
-
-            if (process.env.DEBUGLOGGING) {
-                console.log(obj.MethodName + ' successfully queried');
-            }
-
-            if (data != null) {
-                if (process.env.DEBUGLOGGING) {
-                    console.log(obj.MethodName + ' has data.');
-                }
-
-                if(obj.cacheTime != null ){
-                    cache.put(obj.AppKey, data, obj.cacheTime);
-                }
-                else{
-                    cache.put(obj.AppKey, data, 86400000);
-                }
-                obj.Render(cache.get(obj.AppKey), '', obj.MethodName);
-            }
-            else {
-                if (process.env.DEBUGLOGGING) {
-                    console.log(obj.MethodName + ' has no data.');
-                }
-
-                obj.Render('', '', obj.MethodName);
-            }
-        });
-    }
-}
-
-exports.RenderDataNoCache = function(obj, dataProvider) {
-
-    if (process.env.DEBUGLOGGING) {
-        console.log(obj.MethodName + ' has no cache');
-    }
-
-    dataProvider.getQuery(obj, function (error, data) {
-
-        if (process.env.DEBUGLOGGING) {
-            console.log(obj.MethodName + ' successfully queried');
+            console.log('%s successfully queried', obj.TableName);
         }
 
         if (data != null) {
             if (process.env.DEBUGLOGGING) {
-                console.log(obj.MethodName + ' has data.');
+                console.log('%s has data.', obj.TableName);
             }
 
-            obj.Render(data, '', obj.MethodName);
+            obj.Render(data, '', obj.TableName);
         }
         else {
             if (process.env.DEBUGLOGGING) {
-                console.log(obj.MethodName + ' has no data.');
+                console.log('%s has no data.', obj.TableName);
             }
 
-            obj.Render('', '', obj.MethodName);
+            obj.Render('', '', obj.TableName);
         }
     });
 }

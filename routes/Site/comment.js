@@ -36,7 +36,7 @@ function CreateComment(req, res) {
         TableName: 'comments'
     };
 
-    dataProvider.addQuery(obj, function (error, data) {
+    dataProvider.InsertQuery(obj, function (error, data) {
         var url = req.protocol + "://" + req.get('host') + "/blog/" + c.PartitionKey+"#comments";
         var mailOptions = {
             from: "fbombcode@gmail.com", // sender address
@@ -55,9 +55,6 @@ function CreateComment(req, res) {
                 res.end;
             }
         });
-
-
-        cache.del('comments/' + c.PartitionKey);
 
         res.set('Cache-Control', 'no-cache');
         res.send("");

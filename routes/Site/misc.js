@@ -21,9 +21,6 @@ function GetAllProjects(req, res) {
     var paging = 0;
 
     var RenderObject = {
-        cacheTime: null,
-        AppKey: 'blogSummary',
-        MethodName: 'BlogSummary',
         Render: function (data, category, title) {
             var d = und.where(data, { PartitionKey: 'Project' })
             d = und.sortBy(d, function (item) { return item.DateOfArticle; }).reverse();
@@ -32,30 +29,23 @@ function GetAllProjects(req, res) {
             res.render('layout', { description: 'This is a list of projects I have created as hobbies of mine.', body: "<div class=\"blogSummary\">" + helper.LoadTemplate(filePath, { blog: d }) + "</div>", title: "F Bomb Code Blog Summary" });
             res.end();
         },
-        TableName: 'article',
-        WhereClause: null,
-        Parameters: null
+        TableName: 'article'
     }
 
-    helper.ProcessRoute(helper.RenderDataWithSession, res, RenderObject, 'Projects', dataProvider);
+    helper.ProcessRoute(helper.RenderData, res, RenderObject, 'Projects', dataProvider);
 }
 
 function AboutMe(req, res) {
     var RenderObject = {
-        cacheTime: null,
-        AppKey: 'blogSummary',
-        MethodName: 'BlogSummary',
         Render: function (data, category, title) {
             var d = und.where(data, { PartitionKey: 'AboutMe' })
             res.render('layout', { description: 'This page is about me, Jorden Lowe.  I am a Software developer from Detroit, here to talk about code and coding practices.', body: d[0].Post, Category: category, title: d[0].Title });
             res.end();
         },
-        TableName: 'article',
-        WhereClause: null,
-        Parameters: null
+        TableName: 'article'
     }
 
-    helper.ProcessRoute(helper.RenderDataWithSession, res, RenderObject, 'About Me', dataProvider);
+    helper.ProcessRoute(helper.RenderData, res, RenderObject, 'About Me', dataProvider);
 }
 
 function Search(req, res) {
@@ -63,9 +53,6 @@ function Search(req, res) {
     var paging = 0;
 
     var RenderObject = {
-        cacheTime: null,
-        AppKey: 'blogSummary',
-        MethodName: 'Search',
         Render: function (data, category, title) {
 
             var d = und.filter(data, function (item) { return item.Post.indexOf(searchParameter) > 0; });
@@ -73,21 +60,16 @@ function Search(req, res) {
             res.send(searchResults);
             res.end();
         },
-        TableName: 'article',
-        WhereClause: null,
-        Parameters: null
+        TableName: 'article'
     }
 
-    helper.ProcessRoute(helper.RenderDataNoCache, res, RenderObject, "search with search parameter:'" + searchParameter + "'", dataProvider);
+    helper.ProcessRoute(helper.RenderData, res, RenderObject, "search with search parameter:'" + searchParameter + "'", dataProvider);
 }
 
 function rss(req, res) {
     var paging = 0;
 
     var RenderObject = {
-        cacheTime: null,
-        AppKey: 'blogSummary',
-        MethodName: 'RSS',
         Render: function (data, category, title) {
             var filePath = path.join(appDir, 'public/partials/rssTemplate.xml');
             var d = und.sortBy(data, function (item) { return item.DateOfArticle; }).reverse();
@@ -97,10 +79,8 @@ function rss(req, res) {
             res.send(helper.LoadTemplate(filePath, { rss: d }));
             res.end();
         },
-        TableName: 'article',
-        WhereClause: null,
-        Parameters: null
+        TableName: 'article'
     }
 
-    helper.ProcessRoute(helper.RenderDataWithSession, res, RenderObject, "rss", dataProvider);
+    helper.ProcessRoute(helper.RenderData, res, RenderObject, "rss", dataProvider);
 }

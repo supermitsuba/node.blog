@@ -1,38 +1,21 @@
 var azure = require('azure');
 
-BlogProvider = function (debug, ac, akey) {
+BlogProvider = function (ac, akey, cache) {
     if(process.env.DEBUGLOGGING){
         console.log('Connecting to database.');
+        console.log('Cache: %s', cache?"enabled":"disabled");
     }
     var retryOperations = new azure.ExponentialRetryPolicyFilter();
-    this.tableService = azure.createTableService(ac, akey).withFilter(retryOperations);
-    this.debug = debug;
+    this.TableService = azure.createTableService(ac, akey).withFilter(retryOperations);
+    this.Cache = cache;
 };
 
-BlogProvider.prototype.getQuery = function (obj, callback) {
-    if (this.debug) console.log("Calling getConnection for SP: " + obj.StoredProcedureName+" and params: "+obj.StoredProcedureParameters);
-    var query = azure.TableQuery
-                     .select()
-                     .from(obj.TableName)
+BlogProvider.prototype.InsertQuery = function (obj, callback) {
 
-    if( obj.WhereClause != null ){
-        query.where(obj.WhereClause, obj.Parameters); //('PartitionKey eq ?', 'hometasks');
-    }
-
-    this.tableService.queryEntities(query, function(error, entities){    if (this.debug) console.log('Got Connection ');
-        if (error) {
-            callback(error);
-            return;
-        }
-
-        callback(null, entities);
-    });
-};
-
-BlogProvider.prototype.addQuery = function (obj, callback) {
-
-    this.tableService.insertEntity(obj.TableName, obj.Data, function (error) {
+    var cache = this.Cache;
+    this.TableService.insertEntity(obj.TableName, obj.Data, function (error) {
         if (!error) {
+            cache.del(obj.TableName);
             callback(null);
         }
         else {
@@ -42,17 +25,46 @@ BlogProvider.prototype.addQuery = function (obj, callback) {
 }
 
 BlogProvider.prototype.GetEntities = function(tableName, callback){
-    var query = azure.TableQuery
-                     .select()
-                     .from(tableName);//.top(10);
-    this.tableService.queryEntities(query, function(error, entities){    
-        if (this.debug) console.log('Got Connection ');
+    if (this.Cache.get(tableName) != null) {
+        if (process.env.DEBUGLOGGING) {
+            console.log('%s has cache', tableName);
+        }
+
+        var data = this.Cache.get(tableName);        
+        callback(null, data);
+    }
+    else {
+        if (process.env.DEBUGLOGGING) {
+            console.log('%s has no cache', tableName);
+        }
+
+        var query = azure.TableQuery
+                         .select()
+                         .from(tableName);//.top(10);
+
+        var cache = this.Cache;
+        this.TableService.queryEntities(query, function(error, entities){ 
             if (error) {
                 callback(error, null);
             }
-    
-            callback(null, entities);
+
+            if (entities != null) {
+                if (process.env.DEBUGLOGGING) {
+                    console.log('%s has entities.', tableName);
+                }
+
+                cache.put(tableName, entities, 86400000);
+                callback(null, entities);
+            }
+            else {
+                if (process.env.DEBUGLOGGING) {
+                    console.log('%s has no data.', tableName);
+                }
+                
+                callback(null, null);
+            }
         });
+    }
 }
 
 exports.BlogProvider = BlogProvider;

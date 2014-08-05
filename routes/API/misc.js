@@ -20,9 +20,6 @@ function hello(req, res) {
 
 function GetCategories(req, res) {
     var RenderObject = {
-        cacheTime: null,
-        AppKey: 'blogSummary',
-        MethodName: 'Get Categories',
         Render: function (data, category, title) {
             res.set('Vary', 'Accept-Encoding');
 
@@ -33,18 +30,15 @@ function GetCategories(req, res) {
             res.send({ category: d });
             res.end();
         },
-        TableName: 'article',
-        WhereClause: null,
-        Parameters: null
+        TableName: 'article'
     }
 
-    helper.ProcessRoute(helper.RenderDataWithSession, res, RenderObject, 'GetCategories', dataProvider);
+    helper.ProcessRoute(helper.RenderData, res, RenderObject, 'GetCategories', dataProvider);
 }
 
 function GetEvents(req, res) {
     var today = new Date();
     var RenderObject = {
-        MethodName: 'Get Events',
         Render: function (data, category, title) {
             var today = new Date();
 
@@ -56,12 +50,10 @@ function GetEvents(req, res) {
             res.send({ event: d });
             res.end();
         },
-        TableName: 'event',
-        WhereClause: null,
-        Parameters: null
+        TableName: 'event'
     }
 
-    helper.ProcessRoute(helper.RenderDataNoCache, res, RenderObject, 'GetEvent', dataProvider);
+    helper.ProcessRoute(helper.RenderData, res, RenderObject, 'GetEvent', dataProvider);
 }
 
 function GetInitialState(req, res){

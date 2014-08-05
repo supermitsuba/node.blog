@@ -18,8 +18,6 @@ module.exports = function (app, database, smtp) {
 function GetAllEvents(req, res) {
     var today = new Date();
     var RenderObject = {
-        cacheTime: 86400000,
-        MethodName: 'Events',
         Render: function (data, category, title) {
             var today = new Date();
 
@@ -31,10 +29,8 @@ function GetAllEvents(req, res) {
             res.render('layout', { description: 'These are events I have recognized and wanted to share.  I do attend these and they should be great places for information.', body: "<div class=\"blogSummary\">" + helper.LoadTemplate(filePath, { event: d }) + "</div>", title: 'Events I Know About' });
             res.end();
         },
-        TableName: 'event',
-        WhereClause: null,
-        Parameters: null
+        TableName: 'event'
     }
 
-    helper.ProcessRoute(helper.RenderDataNoCache, res, RenderObject, 'Events', dataProvider);
+    helper.ProcessRoute(helper.RenderData, res, RenderObject, 'Events', dataProvider);
 }

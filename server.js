@@ -5,6 +5,7 @@ var BundleUp = require('bundle-up2');
 var express = require('express');
 var path = require('path');
 var emailer = require('nodemailer');
+var cache = require('memory-cache');
 var app = express();
 module.exports = app;
 
@@ -21,7 +22,7 @@ function main() {
   });
 
   var connectionString = JSON.parse(process.env.MYSQLCONNSTR_TableConnection);
-  var blogProvider = new BlogProvider(process.env.DEBUGLOGGING, connectionString.ac, connectionString.akey);
+  var blogProvider = new BlogProvider(connectionString.ac, connectionString.akey, cache);
   var smtpTransport = emailer.createTransport("SMTP",{
     service: process.env.EMAILSERVICE,
     auth: {

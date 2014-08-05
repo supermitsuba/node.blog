@@ -7,16 +7,15 @@ var dataProvider = null;
 var smtpProvider = null;
 
 module.exports = function (app, database, smtp) {
+    this.dataProvider = database;
+    this.smtpProvider = smtp;
 
-  app.get('/Categories', GetAllCategories);
-  app.get('/Category/:id', GetArticlesByCategory);
+    app.get('/Categories', GetAllCategories);
+    app.get('/Category/:id', GetArticlesByCategory);
 }
 
 function GetAllCategories(req, res) {
     var RenderObject = {
-        cacheTime: null,
-        AppKey: 'blogSummary',
-        MethodName: 'Categories',
         Render: function (data, category, title) {
             var filePath = path.join(appDir, 'public/partials/Category.html');
 
@@ -33,12 +32,10 @@ function GetAllCategories(req, res) {
             res.render('layout', { description: 'The categories of articles hosted on the site.', body: "<div class=\"blogSummary\">" + helper.LoadTemplate(filePath, { category: d }) + "</div>", title: 'Categories of Articles' });
             res.end();
         },
-        TableName: 'article',
-        WhereClause: null,
-        Parameters: null
+        TableName: 'article'
     }
 
-    helper.ProcessRoute(helper.RenderDataWithSession, res, RenderObject, 'Categories', dataProvider);
+    helper.ProcessRoute(helper.RenderData, res, RenderObject, 'Categories', this.dataProvider);
 }
 
 function GetArticlesByCategory(req, res) {
@@ -46,9 +43,6 @@ function GetArticlesByCategory(req, res) {
     var paging = 0;
 
     var RenderObject = {
-        cacheTime: null,
-        AppKey: 'blogSummary',
-        MethodName: 'BlogSummary',
         Render: function (data, category, title) {
             var d = und.where(data, { PartitionKey: categoryId })
                 d = und.sortBy(d, function (item) { return item.DateOfArticle; }).reverse();
@@ -56,10 +50,8 @@ function GetArticlesByCategory(req, res) {
             res.render('layout', { description: 'The list of blog articles and summary of each.', body: "<div class=\"blogSummary\">" + helper.LoadTemplate(filePath, { blog: d }) + "</div>", title: "F Bomb Code Blog Summary" });
             res.end();
         },
-        TableName: 'article',
-        WhereClause: null,
-        Parameters: null
+        TableName: 'article'
     }
 
-    helper.ProcessRoute(helper.RenderDataWithSession, res, RenderObject, 'Category with an id: ' + categoryId, dataProvider);
+    helper.ProcessRoute(helper.RenderData, res, RenderObject, 'Category with an id: ' + categoryId, this.dataProvider);
 }
