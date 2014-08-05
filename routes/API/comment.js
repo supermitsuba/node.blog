@@ -36,7 +36,7 @@ function GetAllCommentsByArticleId(req, res){
 }
 
 function SaveComment(req, res){
-	var today = new Date();
+    var today = new Date();
     var dd = today.getDate();
     var mm = today.getMonth() + 1; //January is 0!
 
@@ -58,7 +58,7 @@ function SaveComment(req, res){
         TableName: 'comments'
     };
 
-    dataProvider.addQuery(obj, function (error, data) {
+    dataProvider.InsertQuery(obj, function (error, data) {
         var url = req.protocol + "://" + req.get('host') + "/blog/" + c.PartitionKey+"#comments";
         var mailOptions = {
             from: "fbombcode@gmail.com", // sender address
@@ -78,10 +78,6 @@ function SaveComment(req, res){
             }
         });
 
-
-        cache.del('comments/' + c.PartitionKey);
-
-        res.set('Cache-Control', 'no-cache');
         res.send("");
         res.end();
     });
