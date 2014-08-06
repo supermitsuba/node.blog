@@ -70,6 +70,11 @@ function GetAllCommentsByArticleId(req, res){
         }
 
         res.format({
+            'application/json': function(){
+                //also need to do some paging
+                res.send(JSON.stringify(arrayOfComments));
+                res.end();
+            },
             'application/hal+json': function(){
                 var filePath = 'views/Hypermedia/Comments/haltemplate.ejs';
                 var payload = helper.LoadTemplate(filePath, { 
@@ -80,11 +85,6 @@ function GetAllCommentsByArticleId(req, res){
                                                                 'articleId': req.params.articleId
                                                             });
                 res.send(payload);
-                res.end();
-            },
-            'application/json': function(){
-                //also need to do some paging
-                res.send(JSON.stringify(arrayOfComments));
                 res.end();
             }
         });

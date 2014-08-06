@@ -38,14 +38,14 @@ function GetAllEvents(req, res){
         }
 
         res.format({
-            'application/hal+json': function(){
-                var filePath = 'views/Hypermedia/Events/haltemplate.ejs';
-                res.send(helper.LoadTemplate(filePath, { 'arrayOfEvents':arrayOfEvents, 'current':'false'  }));
-                res.end();
-            },
             'application/json': function(){
                 //also need to do some paging
                 res.send(JSON.stringify(arrayOfEvents));
+                res.end();
+            },
+            'application/hal+json': function(){
+                var filePath = 'views/Hypermedia/Events/haltemplate.ejs';
+                res.send(helper.LoadTemplate(filePath, { 'arrayOfEvents':arrayOfEvents, 'current':req.query.current  }));
                 res.end();
             }
         });

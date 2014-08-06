@@ -29,15 +29,15 @@ function GetAllCategories(req, res){
         arrayOfCategory = und.uniq(arrayOfCategory, false, function (item) { return item.CategoryType; });
 
         res.format({
+            'application/json': function(){
+                //also need to do some paging
+                res.send(JSON.stringify(arrayOfCategory));
+                res.end();
+            },
             'application/hal+json': function(){
                 var filePath = 'views/Hypermedia/Category/haltemplate.ejs';
                 var payload = helper.LoadTemplate(filePath, { 'arrayOfCategory':arrayOfCategory });
                 res.send(payload);
-                res.end();
-            },
-            'application/json': function(){
-                //also need to do some paging
-                res.send(JSON.stringify(arrayOfCategory));
                 res.end();
             }
         });

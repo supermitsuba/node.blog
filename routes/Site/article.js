@@ -41,7 +41,7 @@ function GetArticleByTitle(req, res) {
     var RenderObject = {
         Render: function (data, category, title) {
             var filePath = 'public/partials/Post.html';
-            d = und.find(data, function (item) { return item.Title === BlogTitle; });
+            var d = und.find(data, function (item) { return item.Title === BlogTitle; });
 
 
             var description = '' + d.Summary;
@@ -61,7 +61,7 @@ function GetArticleById(req, res) {
     var RenderObject = {
         Render: function (data, category, title) {
             var filePath = 'public/partials/Post.html';
-            d = und.find(data, function (item) { return item.RowKey === BlogId; });
+            var d = und.find(data, function (item) { return item.RowKey.trim() === BlogId; });
 
             res.set('Cache-Control', 'no-cache');
             res.render('layout', { description: d.Summary.substring(0, 147) + '...', body: "<div class=\"blogSummary\">" + helper.LoadTemplate(filePath, { post: d, url: req.headers.host }) + "</div>", title: d.Title });

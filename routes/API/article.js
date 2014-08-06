@@ -67,6 +67,11 @@ function GetAllArticles(req, res){
         }
 
         res.format({
+            'application/json': function(){
+                //also need to do some paging
+                res.send(JSON.stringify(arrayOfArticles));
+                res.end();
+            },
             'application/hal+json': function(){
                 var filePath = 'views/Hypermedia/Articles/haltemplate.ejs';
                 var payload = helper.LoadTemplate(filePath, { 
@@ -77,11 +82,6 @@ function GetAllArticles(req, res){
                                                                 'category':(req.query.category ?req.query.category: "")
                                                             });
                 res.send(payload);
-                res.end();
-            },
-            'application/json': function(){
-                //also need to do some paging
-                res.send(JSON.stringify(arrayOfArticles));
                 res.end();
             }
         });
@@ -121,6 +121,11 @@ function GetArticleById(req, res){
         }
 
         res.format({
+            'application/json': function(){
+                //also need to do some paging
+                res.send(JSON.stringify(articles));
+                res.end();
+            },
             'application/hal+json': function(){
                 var filePath = 'views/Hypermedia/Articles/Id/haltemplate.ejs';
                 var payload = helper.LoadTemplate(filePath, { 
@@ -128,11 +133,6 @@ function GetArticleById(req, res){
                                                                 'id':(req.params.id)
                                                             });
                 res.send(payload);
-                res.end();
-            },
-            'application/json': function(){
-                //also need to do some paging
-                res.send(JSON.stringify(articles));
                 res.end();
             }
         });

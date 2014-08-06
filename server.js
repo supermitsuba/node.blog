@@ -1,4 +1,4 @@
-var path = require('path');//path.join(appDir,'/services/underscore')
+var path = require('path');
 require('./config');
 require('./.config');
 var BlogProvider = require('./services/BlogProvider').BlogProvider;
