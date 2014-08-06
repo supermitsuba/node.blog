@@ -8,9 +8,8 @@
                     "EventDate": "<%=arrayOfEvents[i].EventDate %>",
                     "EventName": "<%=arrayOfEvents[i].EventName %>",
                     "Sort": "<%=arrayOfEvents[i].Sort %>",
-                    "_links":[
+                    "_links":
                         {"fbomb:eventLink":{ "href":"<%=arrayOfEvents[i].WebLink %>", "name":"<%=arrayOfEvents[i].EventName %>" } }
-                    ]
                 }<%= (i < (arrayOfEvents.length-1) ? ',' : '') %>
             <% } %>
         ]

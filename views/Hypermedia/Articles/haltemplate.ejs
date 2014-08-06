@@ -15,9 +15,9 @@
                     "Summary":"<%=arrayOfArticles[i].Summary.trim().replace(/\n/g, "<br />").replace(/\t/g, " ")%>",
                     "IsDisabled":"<%=arrayOfArticles[i].IsDisabled%>",
                     "IsCommentEnabled":"<%=arrayOfArticles[i].IsCommentEnabled%>",                    
-                    "_links":[
+                    "_links":
                         {"fbomb:articleById":{ "href":"/api/articles/<%=arrayOfArticles[i].Id%>", "name":"<%= arrayOfArticles[i].Title %>" } }
-                    ]
+                    
                 }<%= (i < (arrayOfArticles.length-1) ? ',' : '') %>
             <% } %>
         ]
