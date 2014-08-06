@@ -1,8 +1,7 @@
 var validator = require('validator').sanitize;
 var path = require('path');
-var appDir = path.dirname(require.main.filename);
-var und = require(path.join(appDir,'/services/underscore'));
-var helper = require(path.join(appDir,'/services/Helper'));
+var und = require('../../services/underscore');
+var helper = require('../../services/Helper');
 var dataProvider = null;
 var smtpProvider = null;
 
@@ -17,7 +16,7 @@ module.exports = function (app, database, smtp) {
 function GetAllCategories(req, res) {
     var RenderObject = {
         Render: function (data, category, title) {
-            var filePath = path.join(appDir, 'public/partials/Category.html');
+            var filePath = 'public/partials/Category.html';
 
 
             var d = null;
@@ -46,7 +45,7 @@ function GetArticlesByCategory(req, res) {
         Render: function (data, category, title) {
             var d = und.where(data, { PartitionKey: categoryId })
                 d = und.sortBy(d, function (item) { return item.DateOfArticle; }).reverse();
-            var filePath = path.join(appDir, 'public/partials/BlogSummary.html');
+            var filePath = 'public/partials/BlogSummary.html';
             res.render('layout', { description: 'The list of blog articles and summary of each.', body: "<div class=\"blogSummary\">" + helper.LoadTemplate(filePath, { blog: d }) + "</div>", title: "F Bomb Code Blog Summary" });
             res.end();
         },

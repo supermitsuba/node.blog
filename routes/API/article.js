@@ -1,9 +1,8 @@
 var path = require('path');
 var validator = require('validator').sanitize;
-var appDir = path.dirname(require.main.filename);
-var und = require(path.join(appDir,'/services/underscore'));
-var helper = require(path.join(appDir,'/services/Helper'));
-var article = require(path.join(appDir,'/models/article'));
+var und = require('../../services/underscore');
+var helper = require('../../services/Helper');
+var article = require('../../models/article');
 var dataProvider = null;
 var smtpProvider = null;
 
@@ -69,7 +68,7 @@ function GetAllArticles(req, res){
 
         res.format({
             'application/hal+json': function(){
-                var filePath = path.join(appDir,'/views/Hypermedia/Articles/haltemplate.ejs');
+                var filePath = 'views/Hypermedia/Articles/haltemplate.ejs';
                 var payload = helper.LoadTemplate(filePath, { 
                                                                 'arrayOfArticles':arrayOfArticles, 
                                                                 'limit':(req.query.limit && req.query.limit <= 25)? req.query.limit :10,
@@ -123,7 +122,7 @@ function GetArticleById(req, res){
 
         res.format({
             'application/hal+json': function(){
-                var filePath = path.join(appDir,'/views/Hypermedia/Articles/Id/haltemplate.ejs');
+                var filePath = 'views/Hypermedia/Articles/Id/haltemplate.ejs';
                 var payload = helper.LoadTemplate(filePath, { 
                                                                 'article':articles,
                                                                 'id':(req.params.id)

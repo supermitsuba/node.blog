@@ -1,7 +1,6 @@
 var path = require('path');
-var appDir = path.dirname(require.main.filename);
-var und = require(path.join(appDir,'/services/underscore'));
-var helper = require(path.join(appDir,'/services/Helper'));
+var und = require('../../services/underscore');
+var helper = require('../../services/Helper');
 var dataProvider = null;
 var smtpProvider = null;
 
@@ -9,6 +8,7 @@ module.exports = function (app, databaseProvider, smtp) {
   app.get('/GetCategories', GetCategories);
   app.get('/GetEvents', GetEvents);
   app.get('/api', GetInitialState);
+  app.get('/api/documentation', Documentation);
 
   dataProvider=databaseProvider;  
   smtpProvider = smtp; 
@@ -78,4 +78,9 @@ function GetInitialState(req, res){
             res.end();
         }
     });
+}
+
+function Documentation(req, res){
+    res.send("Coming soon!");
+    res.end();
 }

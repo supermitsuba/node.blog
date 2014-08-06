@@ -1,8 +1,7 @@
 var validator = require('validator').sanitize;
 var path = require('path');
-var appDir = path.dirname(require.main.filename);
-var und = require(path.join(appDir,'/services/underscore'));
-var helper = require(path.join(appDir,'/services/Helper'));
+var und = require('../../services/underscore');
+var helper = require('../../services/Helper');
 var dataProvider = null;
 var smtpProvider = null;
 
@@ -25,7 +24,7 @@ function GetAllProjects(req, res) {
             var d = und.where(data, { PartitionKey: 'Project' })
             d = und.sortBy(d, function (item) { return item.DateOfArticle; }).reverse();
 
-            var filePath = path.join(appDir, 'public/partials/BlogSummary.html');
+            var filePath = 'public/partials/BlogSummary.html';
             res.render('layout', { description: 'This is a list of projects I have created as hobbies of mine.', body: "<div class=\"blogSummary\">" + helper.LoadTemplate(filePath, { blog: d }) + "</div>", title: "F Bomb Code Blog Summary" });
             res.end();
         },
@@ -71,7 +70,7 @@ function rss(req, res) {
 
     var RenderObject = {
         Render: function (data, category, title) {
-            var filePath = path.join(appDir, 'public/partials/rssTemplate.xml');
+            var filePath = 'public/partials/rssTemplate.xml';
             var d = und.sortBy(data, function (item) { return item.DateOfArticle; }).reverse();
             d = und.filter(d, function (item) { return item.PartitionKey != 'Project' && item.PartitionKey != 'AboutMe'; });
 

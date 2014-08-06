@@ -1,9 +1,9 @@
+var path = require('path');//path.join(appDir,'/services/underscore')
 require('./config');
 require('./.config');
 var BlogProvider = require('./services/BlogProvider').BlogProvider;
 var BundleUp = require('bundle-up2');    
 var express = require('express');
-var path = require('path');
 var emailer = require('nodemailer');
 var cache = require('memory-cache');
 var app = express();

@@ -1,9 +1,8 @@
 var validator = require('validator').sanitize;
 var path = require('path');
-var appDir = path.dirname(require.main.filename);
-var und = require(path.join(appDir,'/services/underscore'));
-var helper = require(path.join(appDir,'/services/Helper'));
-var comment = require(path.join(appDir,'/models/comment'));
+var und = require('../../services/underscore');
+var helper = require('../../services/Helper');
+var comment = require('../../models/comment');
 var dataProvider = null;
 var smtpProvider = null;
 
@@ -72,7 +71,7 @@ function GetAllCommentsByArticleId(req, res){
 
         res.format({
             'application/hal+json': function(){
-                var filePath = path.join(appDir,'/views/Hypermedia/Comments/haltemplate.ejs');
+                var filePath = 'views/Hypermedia/Comments/haltemplate.ejs';
                 var payload = helper.LoadTemplate(filePath, { 
                                                                 'arrayOfComments':arrayOfComments, 
                                                                 'limit':(req.query.limit && req.query.limit <= 25)? req.query.limit :10,

@@ -1,8 +1,7 @@
 var validator = require('validator').sanitize;
 var path = require('path');
 var cache = require('memory-cache');
-var appDir = path.dirname(require.main.filename);
-var comment = require(path.join(appDir,'/models/comment'));
+var comment = require('../../models/comment');
 var dataProvider = null;
 var smtpProvider = null;
 

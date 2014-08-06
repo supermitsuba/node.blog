@@ -1,8 +1,7 @@
 var path = require('path');
-var appDir = path.dirname(require.main.filename);
-var und = require(path.join(appDir,'/services/underscore'));
-var helper = require(path.join(appDir,'/services/Helper'));
-var category = require(path.join(appDir,'/models/category'));
+var und = require('../../services/underscore');
+var helper = require('../../services/Helper');
+var category = require('../../models/category');
 var dataProvider = null;
 var smtpProvider = null;
 
@@ -31,7 +30,7 @@ function GetAllCategories(req, res){
 
         res.format({
             'application/hal+json': function(){
-                var filePath = path.join(appDir,'/views/Hypermedia/Category/haltemplate.ejs');
+                var filePath = 'views/Hypermedia/Category/haltemplate.ejs';
                 var payload = helper.LoadTemplate(filePath, { 'arrayOfCategory':arrayOfCategory });
                 res.send(payload);
                 res.end();
