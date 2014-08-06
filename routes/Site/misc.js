@@ -1,4 +1,4 @@
-
+var validator = require('validator').sanitize;
 var path = require('path');
 var appDir = path.dirname(require.main.filename);
 var und = require(path.join(appDir,'/services/underscore'));

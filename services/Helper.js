@@ -85,3 +85,5 @@ function Retry(myFunction, value1, dataProvider) {
     }
     return result;
 }
+
+exports.curiesLink = [{ "name": "fbomb", "href": "http://fbombcode.com/api/documentation/#{rel}", "templated": true }];

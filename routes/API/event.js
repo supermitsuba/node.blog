@@ -25,12 +25,21 @@ function GetAllEvents(req, res){
             arrayOfEvents.push(a);
         }
 
-        //also need to do some paging
-        res.send(JSON.stringify(arrayOfEvents));
-        res.end();
-    });
-}
+        if(req.query.current == 'true'){
+            arrayOfEvents= und.filter(arrayOfEvents, function(item){ return new Date(item.DateOfEvent) > (new Date()) });
+        }
 
-function GetEventsById(req, res){
-    //same as above, just for one
+        res.format({
+            'application/hal+json': function(){
+                var filePath = path.join(appDir,'/views/Hypermedia/Events/haltemplate.ejs');
+                res.send(helper.LoadTemplate(filePath, { 'arrayOfEvents':arrayOfEvents, 'current':'false'  }));
+                res.end();
+            },
+            'application/json': function(){
+                //also need to do some paging
+                res.send(JSON.stringify(arrayOfEvents));
+                res.end();
+            }
+        });
+    });
 }

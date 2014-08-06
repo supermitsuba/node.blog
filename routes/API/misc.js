@@ -57,5 +57,25 @@ function GetEvents(req, res) {
 }
 
 function GetInitialState(req, res){
-    
+    res.format({
+        'application/hal+json': function(){
+            var apiObject = {
+                '_links': {
+                    'self': { 'href':'/api' },
+                    'fbomb:events':{ 'href':'/api/events?current=true' },
+                    'fbomb:categories':{ 'href':'/api/categories' },
+                    'fbomb:articles':{ 'href':'/api/articles' },
+                    "curies": helper.curiesLink
+                }
+            };
+            res.send(apiObject);
+            res.end();
+        },
+
+        'application/json': function(){
+            res.send({ message: 'The purpose of this URI is more for hypermedia API.  Below is a list of all the accept headers to discover.',
+                       acceptHeaders: ['application/hal+json']});
+            res.end();
+        }
+    });
 }

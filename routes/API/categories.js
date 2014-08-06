@@ -8,7 +8,6 @@ var smtpProvider = null;
 
 module.exports = function (app, database, smtp) {
   	app.get('/api/categories', GetAllCategories);
-	app.get('/api/categories/:id', GetCategoriesById);
 
   	dataProvider=database;
   	smtpProvider = smtp;  
@@ -28,12 +27,20 @@ function GetAllCategories(req, res){
             arrayOfCategory.push(a);
         }
 
-        //also need to do some paging
-        res.send(JSON.stringify(und.uniq(arrayOfCategory, false, function (item) { return item.CategoryType; })));
-        res.end();
-    });
-}
+        arrayOfCategory = und.uniq(arrayOfCategory, false, function (item) { return item.CategoryType; });
 
-function GetCategoriesById(req, res){
-    //same as above but for only one
+        res.format({
+            'application/hal+json': function(){
+                var filePath = path.join(appDir,'/views/Hypermedia/Category/haltemplate.ejs');
+                var payload = helper.LoadTemplate(filePath, { 'arrayOfCategory':arrayOfCategory });
+                res.send(payload);
+                res.end();
+            },
+            'application/json': function(){
+                //also need to do some paging
+                res.send(JSON.stringify(arrayOfCategory));
+                res.end();
+            }
+        });
+    });
 }

@@ -1,0 +1,23 @@
+{
+    "current": "<%=current %>",
+    "_embedded":{
+        "fbomb:events":[
+            <% for(var i=0; i < arrayOfEvents.length; i++ ) { %>
+                {
+                    "DateOfEvent": "<%=arrayOfEvents[i].DateOfEvent %>",
+                    "EventDate": "<%=arrayOfEvents[i].EventDate %>",
+                    "EventName": "<%=arrayOfEvents[i].EventName %>",
+                    "Sort": "<%=arrayOfEvents[i].Sort %>",
+                    "_links":[
+                        {"fbomb:eventLink":{ "href":"<%=arrayOfEvents[i].WebLink %>", "name":"<%=arrayOfEvents[i].EventName %>" } }
+                    ]
+                }<%= (i < (arrayOfEvents.length-1) ? ',' : '') %>
+            <% } %>
+        ]
+    },
+    "_links": {
+        "self": { "href":"<%='/event?current='+current %>" },
+        "fbomb:api":{ "href":"/api" },
+        "curies": [{ "name": "fbomb", "href": "http://fbombcode.com/api/documentation/#{rel}", "templated": true }]
+    }
+}
