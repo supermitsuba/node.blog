@@ -9,14 +9,38 @@ var smtpProvider = null;
 
 module.exports = function (app, database, smtp) {
 	app.get('/api/comments/:articleId', GetAllCommentsByArticleId);
-	app.post('/api/comments', SaveComment);
 
   	dataProvider=database;
   	smtpProvider = smtp;  
 };
 
 function GetAllCommentsByArticleId(req, res){
-	 dataProvider.GetEntities('comments', function(error, obj){
+    //must test q and other query string parameters    
+    if (req.query.limit) {
+        if(isNaN(req.query.limit)){
+            res.send(400, 'limit must be a number.');
+            res.end();
+            return;
+        }
+    }
+
+    if (req.query.offset) {
+        if(isNaN(req.query.offset)){
+            res.send(400, 'offset must be a number.');
+            res.end();
+            return;
+        }
+    }
+
+    if (req.params.articleId) {
+        if(isNaN(req.params.articleId)){
+            res.send(400, 'Article id must be a number.');
+            res.end();
+            return;
+        }
+    }
+
+	dataProvider.GetEntities('comments', function(error, obj){
         //do a lookup for all unique comments in the articles that come
         //back and cache the articles and comments separately
         if(error){
@@ -24,61 +48,46 @@ function GetAllCommentsByArticleId(req, res){
         }
         var arrayOfComments = [];
 
+        if(req.query.q && req.query.q !== ''){
+            obj = und.filter(obj, function (item) { return item.Comment.indexOf(validator(req.query.q).xss()) > 0; });
+        }
+
+        obj = und.filter(obj, function(item){ return item.PartitionKey == req.params.articleId })
+
         for(var i = 0; i < obj.length; i++){
             var a = new comment( obj[i].Name, obj[i].Comment, obj[i].Date, obj[i].PartitionKey, obj[i].RowKey, obj[i].Address );
             arrayOfComments.push(a);
         }
 
-        //also need to do some paging
-        res.send(JSON.stringify(arrayOfComments));
-        res.end();
-    });
-}
+        if (req.query.offset) {
+            arrayOfComments = und.rest(arrayOfComments, req.query.offset);
+        }
+        
+        if (req.query.limit && req.query.limit <= 25) {
+            arrayOfComments = und.first(arrayOfComments, req.query.limit);
+        }
+        else{            
+            arrayOfComments = und.first(arrayOfComments, 10);
+        }
 
-function SaveComment(req, res){
-    var today = new Date();
-    var dd = today.getDate();
-    var mm = today.getMonth() + 1; //January is 0!
-
-    var yyyy = today.getFullYear();
-    if (dd < 10) { dd = '0' + dd } if (mm < 10) { mm = '0' + mm } today = mm + '/' + dd + '/' + yyyy;
-
-    var c = new comment(  validator(req.body.Name).xss(),
-                          validator(req.body.Comment).xss().replace(/(\r\n|\n|\r)/gm, "<br>"),
-                          new Date(),
-                          req.body.ArticleId+'',
-                          Date.now()+'',
-                          req.body.Address
-                         );
-
-    if(!c.Validate(res)) return;
-
-    var obj = {
-        Data: c,
-        TableName: 'comments'
-    };
-
-    dataProvider.InsertQuery(obj, function (error, data) {
-        var url = req.protocol + "://" + req.get('host') + "/blog/" + c.PartitionKey+"#comments";
-        var mailOptions = {
-            from: "fbombcode@gmail.com", // sender address
-            to: "supermitsuba@gmail.com", // list of receivers
-            subject: c.Name+" has wrote a message on article: "+c.PartitionKey, // Subject line
-            html: c.Name+" has wrote a message:<br /><i>"+c.Comment+"</i><br /><br />See more at: "+ url // html body
-        };
-
-        // send mail with defined transport object
-        smtpProvider.sendMail(mailOptions, function(error, response){
-            if(error){
-                console.log(error);
-                //throw error;
-            }else{
-                res.send();
-                res.end;
+        res.format({
+            'application/hal+json': function(){
+                var filePath = path.join(appDir,'/views/Hypermedia/Comments/haltemplate.ejs');
+                var payload = helper.LoadTemplate(filePath, { 
+                                                                'arrayOfComments':arrayOfComments, 
+                                                                'limit':(req.query.limit && req.query.limit <= 25)? req.query.limit :10,
+                                                                'offset':((req.query.offset)?req.query.offset: 1),
+                                                                'q':(req.query.q ?req.query.q: ""),
+                                                                'articleId': req.params.articleId
+                                                            });
+                res.send(payload);
+                res.end();
+            },
+            'application/json': function(){
+                //also need to do some paging
+                res.send(JSON.stringify(arrayOfComments));
+                res.end();
             }
         });
-
-        res.send("");
-        res.end();
     });
 }

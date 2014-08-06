@@ -1,0 +1,17 @@
+{
+    "Id":"<%=id%>",
+    "CategoryType":"<%=article.CategoryType%>",
+    "DateOfArticle":"<%=article.DateOfArticle%>",
+    "Title":"<%=article.Title%>",
+    "AuthorName":"<%=article.AuthorName%>",
+    "Summary":"<%=article.Summary.trim().replace(/\n/g, "<br />").replace(/\t/g, " ")%>",
+    "IsDisabled":"<%=article.IsDisabled%>",
+    "IsCommentEnabled":"<%=article.IsCommentEnabled%>",
+    "_links": {
+        "self": { "href":"/api/articles/<%=id%>" },
+        "fbomb:articlesByCategory":{ "href":"/api/articles?category=<%=article.CategoryType%>" },
+        "fbomb:commentsByArticle":"/api/comments/<%=id%>",
+        "fbomb:api":{ "href":"/api" },
+        "curies": [{ "name": "fbomb", "href": "http://fbombcode.com/api/documentation/#{rel}", "templated": true }]
+    }
+}

@@ -90,5 +90,52 @@ function GetAllArticles(req, res){
 }
 
 function GetArticleById(req, res){
+//must test q and other query string parameters    
+    if (req.params.id) {
+        if(isNaN(req.params.id)){
+            res.send(400, 'id must be a number.');
+            res.end();
+            return;
+        }
+    }
 
+    dataProvider.GetEntities('article', function(error, obj){
+        //do a lookup for all unique events in the articles that come
+        //back and cache the articles and events separately
+        if(error){
+            DisplayErrorPage(res);
+        }
+        var articles = null;
+
+        obj = und.filter(obj, function (item) { return item.RowKey === req.params.id; });
+
+        for(var i = 0; i < obj.length; i++){
+            var a = new article(obj[i].Title, obj[i].AuthorName, obj[i].IsCommentEnabled, obj[i].IsDisabled, obj[i].PartitionKey, obj[i].Post, obj[i].RowKey, obj[i].DateOfArticle, obj[i].Summary );
+            articles = a;
+            break;
+        }
+        
+        if(articles === null){
+            res.send(400, 'Invalid Id.');
+            res.end();
+            return;
+        }
+
+        res.format({
+            'application/hal+json': function(){
+                var filePath = path.join(appDir,'/views/Hypermedia/Articles/Id/haltemplate.ejs');
+                var payload = helper.LoadTemplate(filePath, { 
+                                                                'article':articles,
+                                                                'id':(req.params.id)
+                                                            });
+                res.send(payload);
+                res.end();
+            },
+            'application/json': function(){
+                //also need to do some paging
+                res.send(JSON.stringify(articles));
+                res.end();
+            }
+        });
+    });
 }
