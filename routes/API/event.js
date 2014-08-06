@@ -14,6 +14,15 @@ module.exports = function (app, database, smtp) {
 };
 
 function GetAllEvents(req, res){
+    //must test current and other query string parameters
+    if(req.query.current){
+        var value = req.query.current.toLowerCase();
+        if(value !== 'true' && value !== 'false'){
+            res.send(400, 'current must be either "true" or "false"');
+            res.end();
+            return;
+        }
+    }
 	//
 	dataProvider.GetEntities('event', function(error, obj){
         //do a lookup for all unique events in the articles that come

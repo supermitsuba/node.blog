@@ -5,7 +5,7 @@
                 {
                     "CategoryName": "<%=arrayOfCategory[i].CategoryType %>",
                     "_links":[
-                        {"fbomb:articlesByCategory":{ "href":"<%='/api/article?category='+arrayOfCategory[i].CategoryType %>", "name":"<%= 'Articles for '+arrayOfCategory[i].CategoryType %>" } }
+                        {"fbomb:articlesByCategory":{ "href":"<%='/api/articles?category='+arrayOfCategory[i].CategoryType %>", "name":"<%= 'Articles for '+arrayOfCategory[i].CategoryType %>" } }
                     ]
                 }<%= (i < (arrayOfCategory.length-1) ? ',' : '') %>
             <% } %>

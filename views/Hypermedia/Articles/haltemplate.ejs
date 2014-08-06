@@ -1,0 +1,31 @@
+{
+    "category":"<%=category%>",
+    "q":"<%=q%>",
+    "offset":"<%=offset%>",
+    "limit":"<%=limit%>",
+    "_embedded":{
+        "fbomb:articles":[
+            <% for(var i=0; i < arrayOfArticles.length; i++ ) { %>
+                {
+                    "CategoryType":"<%=arrayOfArticles[i].CategoryType%>",
+                    "Id":"<%=arrayOfArticles[i].Id%>",
+                    "DateOfArticle":"<%=arrayOfArticles[i].DateOfArticle%>",
+                    "Title":"<%=arrayOfArticles[i].Title%>",
+                    "AuthorName":"<%=arrayOfArticles[i].AuthorName%>",
+                    "Summary":"<%=arrayOfArticles[i].Summary.trim().replace(/\n/g, "<br />").replace(/\t/g, " ")%>",
+                    "IsDisabled":"<%=arrayOfArticles[i].IsDisabled%>",
+                    "IsCommentEnabled":"<%=arrayOfArticles[i].IsCommentEnabled%>",                    
+                    "_links":[
+                        {"fbomb:articleById":{ "href":"'/api/article/<%=arrayOfArticles[i].Id%>", "name":"<%= arrayOfArticles[i].Title %>" } }
+                    ]
+                }<%= (i < (arrayOfArticles.length-1) ? ',' : '') %>
+            <% } %>
+        ]
+    },
+    "_links": {
+        "self": { "href":"/articles?category=<%=category%>&q=<%=q%>&offset=<%=offset%>&limit=<%=limit%>" },
+        "fbomb:categories":{ "href":"/api/categories" },
+        "fbomb:api":{ "href":"/api" },
+        "curies": [{ "name": "fbomb", "href": "http://fbombcode.com/api/documentation/#{rel}", "templated": true }]
+    }
+}
