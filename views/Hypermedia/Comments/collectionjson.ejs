@@ -1,0 +1,47 @@
+{
+    "collection" : 
+    {
+        "version" : "1.0",
+        "href" : "http://fbombcode.com/api/comments/<%=articleId%>?q=<%=q%>&offset=<%=offset%>&limit=<%=limit%>",
+
+        "links" : [
+            {"rel" : "home", "href" : "http://fbombcode.com/api"},
+            {"rel" : "curies", "href": "http://fbombcode.com/api/documentation"},
+            {"rel" : "articleById", "href" : "http://fbombcode.com/api/articles/<%=articleId%>"}
+        ],
+
+        "items": [
+            <% for(var i=0; i < arrayOfComments.length; i++ ) { %>
+            {
+                "data": [
+                    {
+                        "name":"Name",
+                        "value":"<%=arrayOfComments[i].Name%>"
+                    },
+                    {
+                        "name":"Comment",
+                        "value":"<%=arrayOfComments[i].Comment%>"
+                    },
+                    {
+                        "name":"Date",
+                        "value":"<%=arrayOfComments[i].Date%>"
+                    },
+                    {
+                        "name":"ArticleId",
+                        "value": "<%=articleId%>"
+                    },
+                    {
+                        "name":"Id",
+                        "value": "<%=arrayOfComments[i].RowKey%>"
+                    }
+                ],
+                "links": []
+            }<%= (i < (arrayOfComments.length-1) ? ',' : '') %>
+            <% } %>
+        ],
+        "queries": [
+            {"rel" : "self", "href" : "http://fbombcode.com/api/comments/<%=articleId%>", "prompt": "filter comments", "data": [{"name":"limit", "value":"", "prompt":"Number of Records"}, {"name":"offset", "value":"", "prompt":"The starting record"}, {"name":"q", "value":"", "prompt":"Search Criteria"}]}            
+        ],
+        "template": {}
+    } 
+}

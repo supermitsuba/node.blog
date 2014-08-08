@@ -1,0 +1,60 @@
+{
+    "collection" : 
+    {
+        "version" : "1.0",
+        "href" : "http://fbombcode.com/api/articles?category=<%=category%>&q=<%=q%>&offset=<%=offset%>&limit=<%=limit%>",
+
+        "links" : [
+            {"rel" : "home", "href" : "http://fbombcode.com/api"},
+            {"rel" : "curies", "href": "http://fbombcode.com/api/documentation"},
+            {"rel" : "categories", "href" : "http://fbombcode.com/api/categories"}
+        ],
+
+        "items": [
+            <% for(var i=0; i < arrayOfArticles.length; i++ ) { %>
+            {
+                "href": "http://fbombcode.com/api/articles/<%=arrayOfArticles[i].Id%>",
+                "data": [
+                    {
+                        "name":"CategoryType",
+                        "value":"<%=arrayOfArticles[i].CategoryType%>"
+                    },
+                    {
+                        "name":"Id",
+                        "value":"<%=arrayOfArticles[i].Id%>"
+                    },
+                    {
+                        "name":"DateOfArticle",
+                        "value":"<%=arrayOfArticles[i].DateOfArticle%>"
+                    },
+                    {
+                        "name":"Title",
+                        "value": "<%=arrayOfArticles[i].Title%>"
+                    },
+                    {
+                        "name":"AuthorName",
+                        "value": "<%=arrayOfArticles[i].AuthorName%>"
+                    },
+                    {
+                        "name":"Summary",
+                        "value": "<%=arrayOfArticles[i].Summary.trim().replace(/\n/g, "<br />").replace(/\t/g, " ")%>"
+                    },
+                    {
+                        "name":"IsDisabled",
+                        "value": "<%=arrayOfArticles[i].IsDisabled%>"
+                    },
+                    {
+                        "name":"IsCommentEnabled",
+                        "value": "<%=arrayOfArticles[i].IsCommentEnabled%>"
+                    }
+                ],
+                "links": []
+            }<%= (i < (arrayOfArticles.length-1) ? ',' : '') %>
+            <% } %>
+        ],
+        "queries": [
+            {"rel" : "articles", "href" : "http://fbombcode.com/api/articles", "prompt": "filter articles", "data": [{"name":"limit", "value":"", "prompt":"Number of Records"}, {"name":"offset", "value":"", "prompt":"The starting record"}, {"name":"q", "value":"", "prompt":"Search Criteria"}, {"name":"category", "value":"", "prompt":"Category Of Articles"}]}            
+        ],
+        "template": {}
+    } 
+}

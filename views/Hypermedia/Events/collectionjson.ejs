@@ -1,0 +1,43 @@
+{
+    "collection" : 
+    {
+        "version" : "1.0",
+        "href" : "<%='http://fbombcode.com/api/events?current='+current %>",
+
+        "links" : [
+            {"rel" : "home", "href" : "http://fbombcode.com/api"},
+            {"rel" : "curies", "href": "http://fbombcode.com/api/documentation"}
+        ],
+
+        "items": [
+            <% for(var i=0; i < arrayOfEvents.length; i++ ) { %>
+            {
+                "href": "<%=arrayOfEvents[i].WebLink %>",
+                "data": [
+                    {
+                        "name":"DateOfEvent",
+                        "value":"<%=arrayOfEvents[i].DateOfEvent %>"
+                    },
+                    {
+                        "name":"EventDate",
+                        "value":"<%=arrayOfEvents[i].EventDate %>"
+                    },
+                    {
+                        "name":"EventName",
+                        "value":"<%=arrayOfEvents[i].EventName %>"
+                    },
+                    {
+                        "name":"Sort",
+                        "value": "<%=arrayOfEvents[i].Sort %>"
+                    }
+                ],
+                "links": []
+            }<%= (i < (arrayOfEvents.length-1) ? ',' : '') %>
+            <% } %>
+        ],
+        "queries": [
+            {"rel" : "events", "href" : "http://fbombcode.com/api/events", "prompt": "filter events", "data": [{"name":"current", "value":"", "prompt":"Current Events?"}]}
+        ],
+        "template": {}
+    } 
+}

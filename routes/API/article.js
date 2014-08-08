@@ -72,6 +72,18 @@ function GetAllArticles(req, res){
                 res.send(JSON.stringify(arrayOfArticles));
                 res.end();
             },
+            'application/vnd.collection+json': function(){
+                var filePath = 'views/Hypermedia/Articles/collectionjson.ejs';
+                var payload = helper.LoadTemplate(filePath, { 
+                                                                'arrayOfArticles':arrayOfArticles, 
+                                                                'limit':(req.query.limit && req.query.limit <= 25)? req.query.limit :10,
+                                                                'offset':((req.query.offset)?req.query.offset: 1),
+                                                                'q':(req.query.q ?req.query.q: ""),
+                                                                'category':(req.query.category ?req.query.category: "")
+                                                            });
+                res.send(payload);
+                res.end();
+            },
             'application/hal+json': function(){
                 var filePath = 'views/Hypermedia/Articles/haltemplate.ejs';
                 var payload = helper.LoadTemplate(filePath, { 
@@ -124,6 +136,16 @@ function GetArticleById(req, res){
             'application/json': function(){
                 //also need to do some paging
                 res.send(JSON.stringify(articles));
+                res.end();
+            },
+            'application/vnd.collection+json': function(){
+                //also need to do some paging
+                var filePath = 'views/Hypermedia/Articles/Id/collectionjson.ejs';
+                var payload = helper.LoadTemplate(filePath, { 
+                                                                'article':articles,
+                                                                'id':(req.params.id)
+                                                            });
+                res.send(payload);
                 res.end();
             },
             'application/hal+json': function(){

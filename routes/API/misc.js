@@ -60,7 +60,28 @@ function GetInitialState(req, res){
     res.format({
         'application/json': function(){
             res.send({ message: 'The purpose of this URI is more for hypermedia API.  Below is a list of all the accept headers to discover.',
-                       acceptHeaders: ['application/hal+json']});
+                       acceptHeaders: ['application/json', 'application/hal+json', 'application/vnd.collection+json']});
+            res.end();
+        },
+        'application/vnd.collection+json': function(){
+            var apiObject = { "collection" : 
+                {
+                    "version" : "1.0",
+                    "href" : "http://fbombcode.com/api/",
+                    "links" : [
+                        {"rel" : "home", "href" : "http://fbombcode.com/api"},
+                        {"rel" : "categories", "href" : "http://fbombcode.com/api/categories"},
+                        {"rel" : "curies", "href": "http://fbombcode.com/api/documentation"}
+                    ],
+                    'items': [],
+                    'queries': [
+                        {"rel" : "events", "href" : "http://fbombcode.com/api/events", "prompt": "filter events", "data": [{"name":"current", "value":"", "prompt":"Current Events?"}]},
+                        {"rel" : "articles", "href" : "http://fbombcode.com/api/articles", "prompt": "filter articles", "data": [{"name":"limit", "value":"", "prompt":"Number of Records"}, {"name":"offset", "value":"", "prompt":"The starting record"}, {"name":"q", "value":"", "prompt":"Search Criteria"}, {"name":"category", "value":"", "prompt":"Category Of Articles"}]}
+                    ],
+                    'template': {}
+                } 
+            };
+            res.send(apiObject);
             res.end();
         },
         'application/hal+json': function(){

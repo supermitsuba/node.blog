@@ -1,0 +1,28 @@
+{
+    "collection" : 
+    {
+        "version" : "1.0",
+        "href" : "http://fbombcode.com/api/categories",
+
+        "links" : [
+            {"rel" : "home", "href" : "http://fbombcode.com/api"},
+            {"rel" : "curies", "href": "http://fbombcode.com/api/documentation"}
+        ],
+
+        "items": [
+            <% for(var i=0; i < arrayOfCategory.length; i++ ) { %>
+            {
+                "data": [
+                    {
+                        "name":"CategoryName",
+                        "value":"<%=arrayOfCategory[i].CategoryType %>"
+                    }
+                ],
+                "links": [{"rel" : "articlesByCategory", "href" : "<%='http://fbombcode.com/api/articles?category='+arrayOfCategory[i].CategoryType %>", "prompt": "<%= 'Articles for '+arrayOfCategory[i].CategoryType %>" }]
+            }<%= (i < (arrayOfCategory.length-1) ? ',' : '') %>
+            <% } %>
+        ],
+        "queries": [],
+        "template": {}
+    } 
+}
