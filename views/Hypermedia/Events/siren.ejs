@@ -1,0 +1,39 @@
+{ 
+    "class" : [ "events" ],
+    "properties":{
+
+    },
+    "entities": [
+        <% for(var i=0; i < arrayOfEvents.length; i++ ) { %>
+            {
+                "class":["event"],
+                "properties": {
+                        "DateOfEvent":"<%=arrayOfEvents[i].DateOfEvent %>",
+                        "EventDate":"<%=arrayOfEvents[i].EventDate %>",
+                        "EventName":"<%=arrayOfEvents[i].EventName %>",
+                        "Sort":"<%=arrayOfEvents[i].Sort %>"
+                },
+                "links": [
+                    {"rel" : "event", "href" : "<%=arrayOfEvents[i].WebLink %>"}
+                ]
+            }<%= (i < (arrayOfEvents.length-1) ? ',' : '') %>
+        <% } %>
+    ],
+    "actions": [
+        {
+            "name": "filter-events",
+            "title": "filter events",
+            "method": "GET",
+            "href": "/api/events",
+            "type": "application/vnd.siren+json",
+            "fields": [
+                { "name": "current", "type": "text", "value": "false" }
+            ]
+        }
+    ],
+    "links":[
+        {"rel":["self"], "href":"<%='/api/events?current='+current %>"},
+        {"rel":["home"], "href":"/api"},
+        {"rel":["curies"], "href":"/api/documentation"}
+    ]
+}

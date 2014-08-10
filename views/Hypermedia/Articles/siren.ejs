@@ -1,0 +1,47 @@
+{ 
+    "class" : [ "articles" ],
+    "properties":{
+        "category":"<%=category%>",
+        "q":"<%=q%>",
+        "offset":"<%=offset%>",
+        "limit":"<%=limit%>"
+    },
+    "entities": [
+        <% for(var i=0; i < arrayOfArticles.length; i++ ) { %>
+            {
+                "class":["article"],
+                "properties": {
+                        "CategoryType":"<%=arrayOfArticles[i].CategoryType %>",
+                        "Id":"<%=arrayOfArticles[i].Id %>",
+                        "DateOfArticle":"<%=arrayOfArticles[i].DateOfArticle %>",
+                        "Title":"<%=arrayOfArticles[i].Title %>",
+                        "AuthorName":"<%=arrayOfArticles[i].AuthorName %>",
+                        "Summary":"<%=arrayOfArticles[i].Summary.trim().replace(/\n/g, "<br />").replace(/\t/g, " ") %>",
+                        "IsDisabled":"<%=arrayOfArticles[i].IsDisabled %>",
+                        "IsCommentEnabled":"<%=arrayOfArticles[i].IsCommentEnabled %>"
+                },
+                "links": [{"rel":"articleById", "href":"/api/articles/<%=arrayOfArticles[i].Id%>"}]
+            }<%= (i < (arrayOfArticles.length-1) ? ',' : '') %>
+        <% } %>
+    ],
+    "actions": [{
+        "name": "filter-articles",
+        "title": "filter articles",
+        "method": "GET",
+        "href": "/api/articles",
+        "type": "application/vnd.siren+json",
+        "fields": [
+            { "name": "current", "type": "text", "value": "false" },
+            { "name": "limit", "type": "number", "value":"25"}, 
+            { "name":"offset", "type": "number", "value":"1"}, 
+            {"name":"q", "type": "text", "value":""}, 
+            {"name":"category", "type": "text", "value":""}
+        ]
+    }],
+    "links":[
+        {"rel":["self"], "href":"/api/articles?category=<%=category%>&q=<%=q%>&offset=<%=offset%>&limit=<%=limit%>"},
+        {"rel":["home"], "href":"/api"},
+        {"rel":["curies"], "href":"/api/documentation"},
+        {"rel" :["categories"], "href" : "http://fbombcode.com/api/categories"}
+    ]
+}

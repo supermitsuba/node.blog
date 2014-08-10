@@ -38,6 +38,12 @@ function GetAllCategories(req, res){
                 res.send(JSON.stringify(arrayOfCategory));
                 res.end();
             },
+            'application/vnd.siren+json': function(){
+                var filePath = 'views/Hypermedia/Category/siren.ejs';
+                var payload = helper.LoadTemplate(filePath, { 'arrayOfCategory':arrayOfCategory });
+                res.send(payload);
+                res.end();
+            },
             'application/vnd.collection+json': function(){
                 var filePath = 'views/Hypermedia/Category/collectionjson.ejs';
                 var payload = helper.LoadTemplate(filePath, { 'arrayOfCategory':arrayOfCategory });

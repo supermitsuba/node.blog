@@ -77,7 +77,10 @@ function GetInitialState(req, res){
             var apiObject = { 
                 "class" : [ "API" ],
                 "properties":{},
-                "entities": [],
+                "entities": [
+                    {"rel":["categories"], "href":"/api/categories"},
+                    {"rel":["curies"], "href":"/api/documentation"}
+                ],
                 "actions": [
                     {
                         "name": "filter-events",
@@ -106,8 +109,7 @@ function GetInitialState(req, res){
                 ],
                 "links":[
                     {"rel":["self"], "href":"/api"},
-                    {"rel":["categories"], "href":"/api/categories"},
-                    {"rel":["curies"], "href":"/api/documentation"}
+                    
                 ]
             };
 

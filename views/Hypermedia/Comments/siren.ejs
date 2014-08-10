@@ -1,0 +1,41 @@
+{ 
+    "class" : [ "comments" ],
+    "properties":{
+        "articleId":"<%=articleId%>",
+        "q":"<%=q%>",
+        "offset":"<%=offset%>",
+        "limit":"<%=limit%>"
+    },
+    "entities": [
+        <% for(var i=0; i < arrayOfComments.length; i++ ) { %>
+            {
+                "class":["comment"],
+                "properties": {
+                        "Name":"<%=arrayOfComments[i].Name %>",
+                        "Comment":"<%=arrayOfComments[i].Comment %>",
+                        "Date":"<%=arrayOfComments[i].Date %>",
+                        "ArticleId":"<%=articleId %>",
+                        "Id":"<%=arrayOfComments[i].Id %>"
+                },
+                "links": []
+            }<%= (i < (arrayOfComments.length-1) ? ',' : '') %>
+        <% } %>
+    ],
+    "actions": [{
+        "name": "filter-comments",
+        "title": "filter comments",
+        "method": "GET",
+        "type": "application/vnd.siren+json",
+        "fields": [
+            { "name": "limit", "type": "number", "value":"25"}, 
+            { "name":"offset", "type": "number", "value":"1"}, 
+            {"name":"q", "type": "text", "value":""}
+        ]
+    }],
+    "links":[
+        {"rel":["self"], "href":"/api/comments/<%=articleId%>?q=<%=q%>&offset=<%=offset%>&limit=<%=limit%>"},
+        {"rel":["home"], "href":"/api"},
+        {"rel":["curies"], "href":"/api/documentation"},
+        {"rel" :["articleById"], "href" : "http://fbombcode.com/api/articles/<%=articleId%>"}
+    ]
+}

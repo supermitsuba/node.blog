@@ -1,0 +1,23 @@
+{ 
+    "class" : [ "categories" ],
+    "properties":{
+
+    },
+    "entities": [
+        <% for(var i=0; i < arrayOfCategory.length; i++ ) { %>
+            {
+                "class":["category"],
+                "properties": {
+                        "CategoryName":"<%=arrayOfCategory[i].CategoryType %>"
+                },
+                "links": [{"rel" : "articlesByCategory", "href" : "<%='/api/articles?category='+arrayOfCategory[i].CategoryType %>"}]
+            }<%= (i < (arrayOfCategory.length-1) ? ',' : '') %>
+        <% } %>
+    ],
+    "actions": [],
+    "links":[
+        {"rel":["self"], "href":"/api/categories"},
+        {"rel":["home"], "href":"/api"},
+        {"rel":["curies"], "href":"/api/documentation"}
+    ]
+}

@@ -1,0 +1,36 @@
+{ 
+    "class" : [ "article" ],
+    "properties":{
+        "Id":"<%=id%>",
+        "CategoryType":"<%=article.CategoryType%>",
+        "DateOfArticle":"<%=article.DateOfArticle%>",
+        "Title":"<%=article.Title%>",
+        "AuthorName":"<%=article.AuthorName%>",
+        "Summary":"<%=article.Summary.trim().replace(/\n/g, "<br />").replace(/\t/g, " ")%>",
+        "IsDisabled":"<%=article.IsDisabled%>",
+        "IsCommentEnabled":"<%=article.IsCommentEnabled%>"
+    },
+    "entities": [],
+    "actions": [{
+        "name": "filter-articles",
+        "title": "filter articles",
+        "method": "GET",
+        "href": "/api/articles",
+        "type": "application/vnd.siren+json",
+        "fields": [
+            { "name": "current", "type": "text", "value": "false" },
+            { "name": "limit", "type": "number", "value":"25"}, 
+            { "name":"offset", "type": "number", "value":"1"}, 
+            {"name":"q", "type": "text", "value":""}, 
+            {"name":"category", "type": "text", "value":""}
+        ]
+    }],
+    "links":[
+        {"rel":["self"], "href":"/api/articles/<%=id%>"},
+        {"rel":["home"], "href":"/api"},
+        {"rel":["curies"], "href":"/api/documentation"},
+
+        {"rel" :["articlesByCategory"], "href" : "/api/articles?category=<%=article.CategoryType%>"},
+        {"rel" :["commentsByArticle"], "href" : "/api/comments/<%=id%>"}
+    ]
+}

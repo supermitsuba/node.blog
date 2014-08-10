@@ -46,6 +46,11 @@ function GetAllEvents(req, res){
                 res.send(JSON.stringify(arrayOfEvents));
                 res.end();
             },
+            'application/vnd.siren+json': function(){
+                var filePath = 'views/Hypermedia/Events/siren.ejs';
+                res.send(helper.LoadTemplate(filePath, { 'arrayOfEvents':arrayOfEvents, 'current':req.query.current?req.query.current:false  }));
+                res.end();
+            },
             'application/vnd.collection+json': function(){
                 var filePath = 'views/Hypermedia/Events/collectionjson.ejs';
                 res.send(helper.LoadTemplate(filePath, { 'arrayOfEvents':arrayOfEvents, 'current':req.query.current?req.query.current:false  }));
