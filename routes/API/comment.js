@@ -68,6 +68,9 @@ function GetAllCommentsByArticleId(req, res){
         else{            
             arrayOfComments = und.first(arrayOfComments, 10);
         }
+        
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        res.header("Content-Type", "application/json");
 
         res.format({
             'application/json': function(){

@@ -13,6 +13,8 @@ module.exports = function (app, database, smtp) {
 };
 
 function GetAllCategories(req, res){
+
+
 	dataProvider.GetEntities('article', function(error, obj){
         //do a lookup for all unique categories in the articles that come
         //back and cache the articles and categories separately
@@ -27,7 +29,9 @@ function GetAllCategories(req, res){
         }
 
         arrayOfCategory = und.uniq(arrayOfCategory, false, function (item) { return item.CategoryType; });
-
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        res.header("Content-Type", "application/json");
+    
         res.format({
             'application/json': function(){
                 //also need to do some paging

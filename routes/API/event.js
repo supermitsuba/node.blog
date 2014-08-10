@@ -36,7 +36,10 @@ function GetAllEvents(req, res){
         if(req.query.current == 'true'){
             arrayOfEvents= und.filter(arrayOfEvents, function(item){ return new Date(item.DateOfEvent) > (new Date()) });
         }
-
+        
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        res.header("Content-Type", "application/json");
+    
         res.format({
             'application/json': function(){
                 //also need to do some paging

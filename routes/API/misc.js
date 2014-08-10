@@ -57,10 +57,61 @@ function GetEvents(req, res) {
 }
 
 function GetInitialState(req, res){
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.header("Content-Type", "application/json");
+
     res.format({
         'application/json': function(){
-            res.send({ message: 'The purpose of this URI is more for hypermedia API.  Below is a list of all the accept headers to discover.',
-                       acceptHeaders: ['application/json', 'application/hal+json', 'application/vnd.collection+json']});
+            res.send(
+                { 
+                    message: 'The purpose of this URI is more for hypermedia API.  Below is a list of all the accept headers to discover.',
+                    acceptHeaders: [
+                        'application/json', 
+                        'application/hal+json', 
+                        'application/vnd.collection+json',
+                        'application/vnd.siren+json'
+                    ]});
+            res.end();
+        },
+        'application/vnd.siren+json': function(){
+            var apiObject = { 
+                "class" : [ "API" ],
+                "properties":{},
+                "entities": [],
+                "actions": [
+                    {
+                        "name": "filter-events",
+                        "title": "filter events",
+                        "method": "GET",
+                        "href": "/api/events",
+                        "type": "application/vnd.siren+json",
+                        "fields": [
+                            { "name": "current", "type": "text", "value": "false" },
+                        ]
+                    },
+                    {
+                        "name": "filter-articles",
+                        "title": "filter articles",
+                        "method": "GET",
+                        "href": "/api/articles",
+                        "type": "application/vnd.siren+json",
+                        "fields": [
+                            { "name": "current", "type": "text", "value": "false" },
+                            { "name": "limit", "type": "number", "value":"25"}, 
+                            { "name":"offset", "type": "number", "value":"1"}, 
+                            {"name":"q", "type": "text", "value":""}, 
+                            {"name":"category", "type": "text", "value":""}
+                        ]
+                    }
+                ],
+                "links":[
+                    {"rel":["self"], "href":"/api"},
+                    {"rel":["categories"], "href":"/api/categories"},
+                    {"rel":["curies"], "href":"/api/documentation"}
+                ]
+            };
+
+            res.send(apiObject);
             res.end();
         },
         'application/vnd.collection+json': function(){

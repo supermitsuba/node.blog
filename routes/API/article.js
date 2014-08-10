@@ -31,6 +31,9 @@ function GetAllArticles(req, res){
             return;
         }
     }
+    
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.header("Content-Type", "application/json");
 
 	dataProvider.GetEntities('article', function(error, obj){
         //do a lookup for all unique events in the articles that come
@@ -131,6 +134,9 @@ function GetArticleById(req, res){
             res.end();
             return;
         }
+        
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        res.header("Content-Type", "application/json");
 
         res.format({
             'application/json': function(){
