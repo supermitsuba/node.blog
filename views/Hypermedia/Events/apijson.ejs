@@ -1,0 +1,21 @@
+{
+    "current": "<%=current %>",
+    "events":[
+        <% for(var i=0; i < arrayOfEvents.length; i++ ) { %>
+            {
+                "DateOfEvent": "<%=arrayOfEvents[i].DateOfEvent %>",
+                "EventDate": "<%=arrayOfEvents[i].EventDate %>",
+                "EventName": "<%=arrayOfEvents[i].EventName %>",
+                "Sort": "<%=arrayOfEvents[i].Sort %>",
+                "links":{
+                    "href":"<%=arrayOfEvents[i].WebLink %>", 
+                    "name":"<%=arrayOfEvents[i].EventName %>" 
+                }
+            }<%= (i < (arrayOfEvents.length-1) ? ',' : '') %>
+        <% } %>
+    ],
+    "links": {
+        "self": { "href":"<%='/api/events?current='+current %>", "type":"events" },
+        "api":{ "href":"/api", "type":"api" }
+    }
+}

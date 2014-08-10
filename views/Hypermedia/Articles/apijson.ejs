@@ -1,0 +1,30 @@
+{
+    "meta":{
+        "category":"<%=category%>",
+        "q":"<%=q%>",
+        "offset":"<%=offset%>",
+        "limit":"<%=limit%>",
+    }
+    "articles":[
+        <% for(var i=0; i < arrayOfArticles.length; i++ ) { %>
+            {
+                "CategoryType":"<%=arrayOfArticles[i].CategoryType%>",
+                "Id":"<%=arrayOfArticles[i].Id%>",
+                "DateOfArticle":"<%=arrayOfArticles[i].DateOfArticle%>",
+                "Title":"<%=arrayOfArticles[i].Title%>",
+                "AuthorName":"<%=arrayOfArticles[i].AuthorName%>",
+                "Summary":"<%=arrayOfArticles[i].Summary.trim().replace(/\n/g, "<br />").replace(/\t/g, " ")%>",
+                "IsDisabled":"<%=arrayOfArticles[i].IsDisabled%>",
+                "IsCommentEnabled":"<%=arrayOfArticles[i].IsCommentEnabled%>",                    
+                "_links":
+                    {"articleById":{ "href":"/api/articles/<%=arrayOfArticles[i].Id%>", "name":"<%= arrayOfArticles[i].Title %>" } }
+                
+            }<%= (i < (arrayOfArticles.length-1) ? ',' : '') %>
+        <% } %>
+    ],
+    "links": {
+        "self": { "href":"/api/articles?category=<%=category%>&q=<%=q%>&offset=<%=offset%>&limit=<%=limit%>" },
+        "categories":{ "href":"/api/categories" },
+        "api":{ "href":"/api" }
+    }
+}

@@ -1,0 +1,24 @@
+{
+    "meta":{
+        "articleId":"<%=articleId%>",
+        "q":"<%=q%>",
+        "offset":"<%=offset%>",
+        "limit":"<%=limit%>"
+    },
+    "comments":[
+    	<% for(var i=0; i < arrayOfComments.length; i++ ) { %>
+            {
+                "Name":"<%=arrayOfComments[i].Name%>",
+                "Comment":"<%=arrayOfComments[i].Comment%>",
+                "Date":"<%=arrayOfComments[i].Date%>",
+                "ArticleId":"<%=articleId%>",
+                "Id":"<%=arrayOfComments[i].RowKey%>"                   
+            }<%= (i < (arrayOfComments.length-1) ? ',' : '') %>
+        <% } %>
+    ],
+    "links": {
+        "self": { "href":"/api/comments/<%=articleId%>?q=<%=q%>&offset=<%=offset%>&limit=<%=limit%>" },
+        "api":{ "href":"/api" },
+        "articleById": { "href": "/api/articles/<%=articleId%>"}
+    }
+}

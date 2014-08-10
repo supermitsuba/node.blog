@@ -44,6 +44,12 @@ function GetAllCategories(req, res){
                 res.send(payload);
                 res.end();
             },
+            'application/vnd.api+json': function(){
+                var filePath = 'views/Hypermedia/Category/apijson.ejs';
+                var payload = helper.LoadTemplate(filePath, { 'arrayOfCategory':arrayOfCategory });
+                res.send(payload);
+                res.end();
+            },
             'application/vnd.collection+json': function(){
                 var filePath = 'views/Hypermedia/Category/collectionjson.ejs';
                 var payload = helper.LoadTemplate(filePath, { 'arrayOfCategory':arrayOfCategory });

@@ -1,0 +1,18 @@
+{
+    "article":{
+        "Id":"<%=id%>",
+        "CategoryType":"<%=article.CategoryType%>",
+        "DateOfArticle":"<%=article.DateOfArticle%>",
+        "Title":"<%=article.Title%>",
+        "AuthorName":"<%=article.AuthorName%>",
+        "Summary":"<%=article.Summary.trim().replace(/\n/g, "<br />").replace(/\t/g, " ")%>",
+        "IsDisabled":"<%=article.IsDisabled%>",
+        "IsCommentEnabled":"<%=article.IsCommentEnabled%>"
+    },
+    "links": {
+        "self": { "href":"/api/articles/<%=id%>" },
+        "Categories.Articles":{ "href":"/api/articles?category=<%=article.CategoryType%>" },
+        "Article.Comments":"/api/comments/<%=id%>",
+        "api":{ "href":"/api" }
+    }
+}

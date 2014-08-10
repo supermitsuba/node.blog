@@ -69,6 +69,7 @@ function GetInitialState(req, res){
                         'application/json', 
                         'application/hal+json', 
                         'application/vnd.collection+json',
+                        'application/vnd.api+json',
                         'application/vnd.siren+json'
                     ]});
             res.end();
@@ -111,6 +112,19 @@ function GetInitialState(req, res){
                     {"rel":["self"], "href":"/api"},
                     
                 ]
+            };
+
+            res.send(apiObject);
+            res.end();
+        },
+        'application/vnd.api+json': function(){
+            var apiObject = { 
+                '_links': {
+                    'self': { 'href':'/api', "type":"api" },
+                    'events':{ 'href':'/api/events?current=true', "type":"events" },
+                    'categories':{ 'href':'/api/categories', "type":"categories" },
+                    'articles':{ 'href':'/api/articles', "type":"articles" }
+                }
             };
 
             res.send(apiObject);

@@ -90,6 +90,18 @@ function GetAllCommentsByArticleId(req, res){
                 res.send(payload);
                 res.end();
             },
+            'application/vnd.api+json': function(){
+                var filePath = 'views/Hypermedia/Comments/apijson.ejs';
+                var payload = helper.LoadTemplate(filePath, { 
+                                                                'arrayOfComments':arrayOfComments, 
+                                                                'limit':(req.query.limit && req.query.limit <= 25)? req.query.limit :10,
+                                                                'offset':((req.query.offset)?req.query.offset: 1),
+                                                                'q':(req.query.q ?req.query.q: ""),
+                                                                'articleId': req.params.articleId
+                                                            });
+                res.send(payload);
+                res.end();
+            },
             'application/vnd.collection+json': function(){
                 var filePath = 'views/Hypermedia/Comments/collectionjson.ejs';
                 var payload = helper.LoadTemplate(filePath, { 
