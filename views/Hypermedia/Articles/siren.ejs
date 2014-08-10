@@ -20,7 +20,7 @@
                         "IsDisabled":"<%=arrayOfArticles[i].IsDisabled %>",
                         "IsCommentEnabled":"<%=arrayOfArticles[i].IsCommentEnabled %>"
                 },
-                "links": [{"rel":"articleById", "href":"/api/articles/<%=arrayOfArticles[i].Id%>"}]
+                "links": [{"rel":["articleById"], "href":"/api/articles/<%=arrayOfArticles[i].Id%>"}]
             }<%= (i < (arrayOfArticles.length-1) ? ',' : '') %>
         <% } %>
     ],

@@ -14,7 +14,7 @@
                         "Sort":"<%=arrayOfEvents[i].Sort %>"
                 },
                 "links": [
-                    {"rel" : "event", "href" : "<%=arrayOfEvents[i].WebLink %>"}
+                    {"rel" : ["event"], "href" : "<%=arrayOfEvents[i].WebLink %>"}
                 ]
             }<%= (i < (arrayOfEvents.length-1) ? ',' : '') %>
         <% } %>

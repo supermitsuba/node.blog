@@ -10,7 +10,7 @@
                 "properties": {
                         "CategoryName":"<%=arrayOfCategory[i].CategoryType %>"
                 },
-                "links": [{"rel" : "articlesByCategory", "href" : "<%='/api/articles?category='+arrayOfCategory[i].CategoryType %>"}]
+                "links": [{"rel" : ["articlesByCategory"], "href" : "<%='/api/articles?category='+arrayOfCategory[i].CategoryType %>"}]
             }<%= (i < (arrayOfCategory.length-1) ? ',' : '') %>
         <% } %>
     ],
