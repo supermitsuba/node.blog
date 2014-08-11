@@ -1,0 +1,19 @@
+{
+    "fbomb:categories":[
+        <% for(var i=0; i < arrayOfCategory.length; i++ ) { %>
+            {
+                "CategoryName": "<%=arrayOfCategory[i].CategoryType %>",
+                "@links":
+                    {"fbomb:articlesByCategory":{ "href":"<%='/api/articles?category='+arrayOfCategory[i].CategoryType %>", "name":"<%= 'Articles for '+arrayOfCategory[i].CategoryType %>" } }
+                
+            }<%= (i < (arrayOfCategory.length-1) ? ',' : '') %>
+        <% } %>
+    ],
+    "@links": {
+        "self": { "href":"/api/categories" },
+        "fbomb:api":{ "href":"/api" }
+    },
+    "@namespaces":{
+        "fbomb": { "name": "http://fbombcode.com/api/documentation/#{rel}" }
+    }
+}

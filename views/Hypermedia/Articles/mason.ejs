@@ -1,11 +1,9 @@
 {
-    "meta":{
-        "category":"<%=category%>",
-        "q":"<%=q%>",
-        "offset":"<%=offset%>",
-        "limit":"<%=limit%>"
-    },
-    "articles":[
+    "category":"<%=category%>",
+    "q":"<%=q%>",
+    "offset":"<%=offset%>",
+    "limit":"<%=limit%>",
+    "fbomb:articles":[
         <% for(var i=0; i < arrayOfArticles.length; i++ ) { %>
             {
                 "CategoryType":"<%=arrayOfArticles[i].CategoryType%>",
@@ -16,15 +14,18 @@
                 "Summary":"<%=arrayOfArticles[i].Summary.trim().replace(/\n/g, "<br />").replace(/\t/g, " ")%>",
                 "IsDisabled":"<%=arrayOfArticles[i].IsDisabled%>",
                 "IsCommentEnabled":"<%=arrayOfArticles[i].IsCommentEnabled%>",                    
-                "_links":
-                    {"articleById":{ "href":"/api/articles/<%=arrayOfArticles[i].Id%>", "name":"<%= arrayOfArticles[i].Title %>" } }
+                "@links":
+                    {"fbomb:articleById":{ "href":"/api/articles/<%=arrayOfArticles[i].Id%>", "name":"<%= arrayOfArticles[i].Title %>" } }
                 
             }<%= (i < (arrayOfArticles.length-1) ? ',' : '') %>
         <% } %>
     ],
-    "links": {
+    "@links": {
         "self": { "href":"/api/articles?category=<%=category%>&q=<%=q%>&offset=<%=offset%>&limit=<%=limit%>" },
-        "categories":{ "href":"/api/categories" },
-        "api":{ "href":"/api" }
+        "fbomb:categories":{ "href":"/api/categories" },
+        "fbomb:api":{ "href":"/api" }
+    },
+    "@namespaces":{
+        "fbomb": { "name": "http://fbombcode.com/api/documentation/#{rel}" }
     }
 }

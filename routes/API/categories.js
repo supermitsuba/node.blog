@@ -56,8 +56,14 @@ function GetAllCategories(req, res){
                 res.send(payload);
                 res.end();
             },
-            'application/hal+json': function(){
+            'application/vnd.hal+json': function(){
                 var filePath = 'views/Hypermedia/Category/haltemplate.ejs';
+                var payload = helper.LoadTemplate(filePath, { 'arrayOfCategory':arrayOfCategory });
+                res.send(payload);
+                res.end();
+            },
+            'application/vnd.mason+json': function(){
+                var filePath = 'views/Hypermedia/Category/mason.ejs';
                 var payload = helper.LoadTemplate(filePath, { 'arrayOfCategory':arrayOfCategory });
                 res.send(payload);
                 res.end();

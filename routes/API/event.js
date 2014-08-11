@@ -61,8 +61,13 @@ function GetAllEvents(req, res){
                 res.send(helper.LoadTemplate(filePath, { 'arrayOfEvents':arrayOfEvents, 'current':req.query.current?req.query.current:false  }));
                 res.end();
             },
-            'application/hal+json': function(){
+            'application/vnd.hal+json': function(){
                 var filePath = 'views/Hypermedia/Events/haltemplate.ejs';
+                res.send(helper.LoadTemplate(filePath, { 'arrayOfEvents':arrayOfEvents, 'current':req.query.current?req.query.current:false  }));
+                res.end();
+            },
+            'application/vnd.mason+json': function(){
+                var filePath = 'views/Hypermedia/Events/mason.ejs';
                 res.send(helper.LoadTemplate(filePath, { 'arrayOfEvents':arrayOfEvents, 'current':req.query.current?req.query.current:false  }));
                 res.end();
             }

@@ -67,10 +67,11 @@ function GetInitialState(req, res){
                     message: 'The purpose of this URI is more for hypermedia API.  Below is a list of all the accept headers to discover.',
                     acceptHeaders: [
                         'application/json', 
-                        'application/hal+json', 
+                        'application/vnd.hal+json', 
                         'application/vnd.collection+json',
                         'application/vnd.api+json',
-                        'application/vnd.siren+json'
+                        'application/vnd.siren+json',
+                        'application/vnd.mason+json'
                     ]});
             res.end();
         },
@@ -151,7 +152,7 @@ function GetInitialState(req, res){
             res.send(apiObject);
             res.end();
         },
-        'application/hal+json': function(){
+        'application/vnd.hal+json': function(){
             var apiObject = {
                 '_links': {
                     'self': { 'href':'/api' },
@@ -159,6 +160,21 @@ function GetInitialState(req, res){
                     'fbomb:categories':{ 'href':'/api/categories' },
                     'fbomb:articles':{ 'href':'/api/articles' },
                     "curies": helper.curiesLink
+                }
+            };
+            res.send(apiObject);
+            res.end();
+        },
+        'application/vnd.mason+json': function(){
+            var apiObject = {
+                '@links': {
+                    'self': { 'href':'/api' },
+                    'fbomb:events':{ 'href':'/api/events?current=true' },
+                    'fbomb:categories':{ 'href':'/api/categories' },
+                    'fbomb:articles':{ 'href':'/api/articles' },
+                },
+                "@namespaces":{
+                    "fbomb": { "name": "http://fbombcode.com/api/documentation/#{rel}" }
                 }
             };
             res.send(apiObject);
