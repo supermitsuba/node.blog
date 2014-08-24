@@ -26,11 +26,11 @@
     "_links": {
         "self": { "href":"/api/articles?category=<%=category%>&q=<%=q%>&offset=<%=offset%>&limit=<%=limit%>" },
         "first": { "href":"/api/articles?category=<%=category%>&q=<%=q%>&offset=0&limit=<%=limit%>" },
-        "last": { "href":"/api/articles?category=<%=category%>&q=<%=q%>&offset=<%=Math.ceil(totalRecords/limit)%>&limit=<%=limit%>" },
+        "last": { "href":"/api/articles?category=<%=category%>&q=<%=q%>&offset=<%=Math.ceil(totalRecords/limit)-1 %>&limit=<%=limit%>" },
         <% if(offset > 0){ %>
             "prev":{"href":"/api/articles?offset=<%=( parseInt(offset)-1)%>&category=<%=category%>&q=<%=q%>&limit=<%=limit%>"},
         <% } %>
-        <% if(offset < Math.ceil(totalRecords/limit)){ %>
+        <% if(offset < (Math.ceil(totalRecords/limit)-1) ){ %>
             "next":{"href":"/api/articles?offset=<%=( parseInt(offset)+1)%>&category=<%=category%>&q=<%=q%>&limit=<%=limit%>"},
         <% } %>
         "fbomb:categories":{ "href":"/api/categories" },

@@ -57,9 +57,11 @@ function GetAllCommentsByArticleId(req, res){
             var a = new comment( obj[i].Name, obj[i].Comment, obj[i].Date, obj[i].PartitionKey, obj[i].RowKey, obj[i].Address );
             arrayOfComments.push(a);
         }
+        
+        var count = arrayOfComments.length;
 
         if (req.query.offset) {
-            arrayOfComments = und.rest(arrayOfComments, req.query.offset);
+            arrayOfComments = und.rest(arrayOfComments, req.query.offset * req.query.limit);
         }
         
         if (req.query.limit && req.query.limit <= 25) {
@@ -83,8 +85,9 @@ function GetAllCommentsByArticleId(req, res){
                 var payload = helper.LoadTemplate(filePath, { 
                                                                 'arrayOfComments':arrayOfComments, 
                                                                 'limit':(req.query.limit && req.query.limit <= 25)? req.query.limit :10,
-                                                                'offset':((req.query.offset)?req.query.offset: 1),
+                                                                'offset':((req.query.offset)?req.query.offset: 0),
                                                                 'q':(req.query.q ?req.query.q: ""),
+                                                                'totalRecords' : count,
                                                                 'articleId': req.params.articleId
                                                             });
                 res.send(payload);
@@ -95,8 +98,9 @@ function GetAllCommentsByArticleId(req, res){
                 var payload = helper.LoadTemplate(filePath, { 
                                                                 'arrayOfComments':arrayOfComments, 
                                                                 'limit':(req.query.limit && req.query.limit <= 25)? req.query.limit :10,
-                                                                'offset':((req.query.offset)?req.query.offset: 1),
+                                                                'offset':((req.query.offset)?req.query.offset: 0),
                                                                 'q':(req.query.q ?req.query.q: ""),
+                                                                'totalRecords' : count,
                                                                 'articleId': req.params.articleId
                                                             });
                 res.send(payload);
@@ -107,8 +111,9 @@ function GetAllCommentsByArticleId(req, res){
                 var payload = helper.LoadTemplate(filePath, { 
                                                                 'arrayOfComments':arrayOfComments, 
                                                                 'limit':(req.query.limit && req.query.limit <= 25)? req.query.limit :10,
-                                                                'offset':((req.query.offset)?req.query.offset: 1),
+                                                                'offset':((req.query.offset)?req.query.offset: 0),
                                                                 'q':(req.query.q ?req.query.q: ""),
+                                                                'totalRecords' : count,
                                                                 'articleId': req.params.articleId
                                                             });
                 res.send(payload);
@@ -119,8 +124,9 @@ function GetAllCommentsByArticleId(req, res){
                 var payload = helper.LoadTemplate(filePath, { 
                                                                 'arrayOfComments':arrayOfComments, 
                                                                 'limit':(req.query.limit && req.query.limit <= 25)? req.query.limit :10,
-                                                                'offset':((req.query.offset)?req.query.offset: 1),
+                                                                'offset':((req.query.offset)?req.query.offset: 0),
                                                                 'q':(req.query.q ?req.query.q: ""),
+                                                                'totalRecords' : count,
                                                                 'articleId': req.params.articleId
                                                             });
                 res.send(payload);
@@ -131,8 +137,9 @@ function GetAllCommentsByArticleId(req, res){
                 var payload = helper.LoadTemplate(filePath, { 
                                                                 'arrayOfComments':arrayOfComments, 
                                                                 'limit':(req.query.limit && req.query.limit <= 25)? req.query.limit :10,
-                                                                'offset':((req.query.offset)?req.query.offset: 1),
+                                                                'offset':((req.query.offset)?req.query.offset: 0),
                                                                 'q':(req.query.q ?req.query.q: ""),
+                                                                'totalRecords' : count,
                                                                 'articleId': req.params.articleId
                                                             });
                 res.send(payload);

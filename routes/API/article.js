@@ -61,7 +61,7 @@ function GetAllArticles(req, res){
         var count = arrayOfArticles.length;
 
         if (req.query.offset) {
-            arrayOfArticles = und.rest(arrayOfArticles, req.query.offset);
+            arrayOfArticles = und.rest(arrayOfArticles, req.query.offset * req.query.limit);
         }
         
         if (req.query.limit && req.query.limit <= 25) {
@@ -82,7 +82,7 @@ function GetAllArticles(req, res){
                 var payload = helper.LoadTemplate(filePath, { 
                                                                 'arrayOfArticles':arrayOfArticles, 
                                                                 'limit':(req.query.limit && req.query.limit <= 25)? req.query.limit :10,
-                                                                'offset':((req.query.offset)?req.query.offset: 1),
+                                                                'offset':((req.query.offset)?req.query.offset: 0),
                                                                 'q':(req.query.q ?req.query.q: ""),
                                                                 'totalRecords' : count,
                                                                 'category':(req.query.category ?req.query.category: "")
@@ -95,7 +95,7 @@ function GetAllArticles(req, res){
                 var payload = helper.LoadTemplate(filePath, { 
                                                                 'arrayOfArticles':arrayOfArticles, 
                                                                 'limit':(req.query.limit && req.query.limit <= 25)? req.query.limit :10,
-                                                                'offset':((req.query.offset)?req.query.offset: 1),
+                                                                'offset':((req.query.offset)?req.query.offset: 0),
                                                                 'q':(req.query.q ?req.query.q: ""),
                                                                 'totalRecords' : count,
                                                                 'category':(req.query.category ?req.query.category: "")
@@ -108,7 +108,7 @@ function GetAllArticles(req, res){
                 var payload = helper.LoadTemplate(filePath, { 
                                                                 'arrayOfArticles':arrayOfArticles, 
                                                                 'limit':(req.query.limit && req.query.limit <= 25)? req.query.limit :10,
-                                                                'offset':((req.query.offset)?req.query.offset: 1),
+                                                                'offset':((req.query.offset)?req.query.offset: 0),
                                                                 'q':(req.query.q ?req.query.q: ""),
                                                                 'totalRecords' : count,
                                                                 'category':(req.query.category ?req.query.category: "")
@@ -121,7 +121,7 @@ function GetAllArticles(req, res){
                 var payload = helper.LoadTemplate(filePath, { 
                                                                 'arrayOfArticles':arrayOfArticles, 
                                                                 'limit':(req.query.limit && req.query.limit <= 25)? req.query.limit :10,
-                                                                'offset':((req.query.offset)?req.query.offset: 1),
+                                                                'offset':((req.query.offset)?req.query.offset: 0),
                                                                 'q':(req.query.q ?req.query.q: ""),
                                                                 'totalRecords' : count,
                                                                 'category':(req.query.category ?req.query.category: "")
@@ -134,7 +134,7 @@ function GetAllArticles(req, res){
                 var payload = helper.LoadTemplate(filePath, { 
                                                                 'arrayOfArticles':arrayOfArticles, 
                                                                 'limit':(req.query.limit && req.query.limit <= 25)? req.query.limit :10,
-                                                                'offset':((req.query.offset)?req.query.offset: 1),
+                                                                'offset':((req.query.offset)?req.query.offset: 0),
                                                                 'q':(req.query.q ?req.query.q: ""),
                                                                 'totalRecords' : count,
                                                                 'category':(req.query.category ?req.query.category: "")
