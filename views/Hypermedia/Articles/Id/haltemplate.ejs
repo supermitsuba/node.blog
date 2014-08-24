@@ -10,7 +10,7 @@
     "_links": {
         "self": { "href":"/api/articles/<%=id%>" },
         "fbomb:articlesByCategory":{ "href":"/api/articles?category=<%=article.CategoryType%>" },
-        "fbomb:commentsByArticle":"/api/comments/<%=id%>",
+        "fbomb:commentsByArticle":{ "href":"/api/comments/<%=id%>"},
         "fbomb:api":{ "href":"/api" },
         "curies": [{ "name": "fbomb", "href": "http://fbombcode.com/api/documentation/#{rel}", "templated": true }]
     }
