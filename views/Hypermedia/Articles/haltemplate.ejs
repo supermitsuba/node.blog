@@ -3,6 +3,7 @@
     "q":"<%=q%>",
     "offset":"<%=offset%>",
     "limit":"<%=limit%>",
+    "totalRecords":"<%=totalRecords%>",
     "_embedded":{
         "fbomb:articles":[
             <% for(var i=0; i < arrayOfArticles.length; i++ ) { %>
@@ -24,6 +25,14 @@
     },
     "_links": {
         "self": { "href":"/api/articles?category=<%=category%>&q=<%=q%>&offset=<%=offset%>&limit=<%=limit%>" },
+        "first": { "href":"/api/articles?category=<%=category%>&q=<%=q%>&offset=0&limit=<%=limit%>" },
+        "last": { "href":"/api/articles?category=<%=category%>&q=<%=q%>&offset=<%=Math.ceil(totalRecords/limit)%>&limit=<%=limit%>" },
+        <% if(offset > 0){ %>
+            "prev":{"href":"/api/articles?offset=<%=( parseInt(offset)-1)%>&category=<%=category%>&q=<%=q%>&limit=<%=limit%>"},
+        <% } %>
+        <% if(offset < Math.ceil(totalRecords/limit)){ %>
+            "next":{"href":"/api/articles?offset=<%=( parseInt(offset)+1)%>&category=<%=category%>&q=<%=q%>&limit=<%=limit%>"},
+        <% } %>
         "fbomb:categories":{ "href":"/api/categories" },
         "fbomb:api":{ "href":"/api" },
         "curies": [{ "name": "fbomb", "href": "http://fbombcode.com/api/documentation/#{rel}", "templated": true }]

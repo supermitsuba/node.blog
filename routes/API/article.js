@@ -58,6 +58,8 @@ function GetAllArticles(req, res){
             arrayOfArticles = und.filter(arrayOfArticles, function(item) { return item.CategoryType == validator(req.query.category).xss(); })
         }
 
+        var count = arrayOfArticles.length;
+
         if (req.query.offset) {
             arrayOfArticles = und.rest(arrayOfArticles, req.query.offset);
         }
@@ -82,6 +84,7 @@ function GetAllArticles(req, res){
                                                                 'limit':(req.query.limit && req.query.limit <= 25)? req.query.limit :10,
                                                                 'offset':((req.query.offset)?req.query.offset: 1),
                                                                 'q':(req.query.q ?req.query.q: ""),
+                                                                'totalRecords' : count,
                                                                 'category':(req.query.category ?req.query.category: "")
                                                             });
                 res.send(payload);
@@ -94,6 +97,7 @@ function GetAllArticles(req, res){
                                                                 'limit':(req.query.limit && req.query.limit <= 25)? req.query.limit :10,
                                                                 'offset':((req.query.offset)?req.query.offset: 1),
                                                                 'q':(req.query.q ?req.query.q: ""),
+                                                                'totalRecords' : count,
                                                                 'category':(req.query.category ?req.query.category: "")
                                                             });
                 res.send(payload);
@@ -106,6 +110,7 @@ function GetAllArticles(req, res){
                                                                 'limit':(req.query.limit && req.query.limit <= 25)? req.query.limit :10,
                                                                 'offset':((req.query.offset)?req.query.offset: 1),
                                                                 'q':(req.query.q ?req.query.q: ""),
+                                                                'totalRecords' : count,
                                                                 'category':(req.query.category ?req.query.category: "")
                                                             });
                 res.send(payload);
@@ -118,6 +123,7 @@ function GetAllArticles(req, res){
                                                                 'limit':(req.query.limit && req.query.limit <= 25)? req.query.limit :10,
                                                                 'offset':((req.query.offset)?req.query.offset: 1),
                                                                 'q':(req.query.q ?req.query.q: ""),
+                                                                'totalRecords' : count,
                                                                 'category':(req.query.category ?req.query.category: "")
                                                             });
                 res.send(payload);
@@ -130,6 +136,7 @@ function GetAllArticles(req, res){
                                                                 'limit':(req.query.limit && req.query.limit <= 25)? req.query.limit :10,
                                                                 'offset':((req.query.offset)?req.query.offset: 1),
                                                                 'q':(req.query.q ?req.query.q: ""),
+                                                                'totalRecords' : count,
                                                                 'category':(req.query.category ?req.query.category: "")
                                                             });
                 res.send(payload);
