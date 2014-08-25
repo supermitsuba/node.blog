@@ -89,6 +89,24 @@ function clear(req, res){
     if(req.body.super == 'mitsuba')
     {
         dataProvider.ClearAll();
+
+        var mailOptions = {
+            from: "fbombcode@gmail.com", // sender address
+            to: "supermitsuba@gmail.com", // list of receivers
+            subject: "Server cache was reset.", // Subject line
+            html: "Hope that was you" // html body
+        };
+
+        // send mail with defined transport object
+        smtpProvider.sendMail(mailOptions, function(error, response){
+            if(error){
+                console.log(error);
+                //throw error;
+            }else{
+                res.send();
+                res.end;
+            }
+        });
     }
     res.send("OK");
     res.end();
