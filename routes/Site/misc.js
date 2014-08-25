@@ -10,6 +10,7 @@ module.exports = function (app, database, smtp) {
   app.get('/AboutMe', AboutMe);
   app.get('/Search/:text', Search);
   app.get('/rss', rss);
+  app.post('/clear', clear);
 
   dataProvider=database;
   smtpProvider = smtp;  
@@ -82,4 +83,13 @@ function rss(req, res) {
     }
 
     helper.ProcessRoute(helper.RenderData, res, RenderObject, "rss", dataProvider);
+}
+
+function clear(req, res){
+    if(req.body.super == 'mitsuba')
+    {
+        dataProvider.ClearAll();
+    }
+    res.send("OK");
+    res.end();
 }

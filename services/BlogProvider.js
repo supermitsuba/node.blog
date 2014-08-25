@@ -67,4 +67,8 @@ BlogProvider.prototype.GetEntities = function(tableName, callback){
     }
 }
 
+BlogProvider.prototype.ClearAll = function(){
+    this.Cache.clear();
+}
+
 exports.BlogProvider = BlogProvider;
