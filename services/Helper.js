@@ -24,6 +24,10 @@ exports.RenderData = function(obj, dataProvider) {
     });
 }
 
+exports.LoadFile = function(filePath){
+    return fs.readFileSync(filePath, 'utf8');
+};
+
 exports.LoadTemplate = LoadTemplate;
 
 function LoadTemplate(filePath, data) {

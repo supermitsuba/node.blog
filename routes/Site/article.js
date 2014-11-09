@@ -10,9 +10,15 @@ module.exports = function (app, database, smtp) {
   app.get('/Title/:title', GetArticleByTitle);
   app.get('/Blog/:id', GetArticleById);
   app.get('/Comments/:blogId/:page', GetArticlesCommentsByPage);
-  
+  app.get('/ng', AngularPage);
   dataProvider=database;
   smtpProvider = smtp;  
+};
+
+function AngularPage(req, res){
+    var filePath = 'views/layout.html';
+    res.send(helper.LoadFile(filePath));
+    res.end();
 };
 
 function GetAllArticles(req, res) {
