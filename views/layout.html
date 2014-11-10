@@ -53,12 +53,14 @@
 
 	    <div class="container-fluid" style="margin-top:40px;">
 			<div class="row">
-	        	<aside class="col-md-2" ui-view="sidebar"> 
-	        	</aside>
-
-	            <section ui-view="content">
+				<section class="col-md-9" ui-view="content">
 	            </section>
 	            
+	            <div class="col-md-3">
+		        	<aside class="bs-docs-sidebar affix" ui-view="sidebar"> 
+		        	</aside>
+	        	</div>
+
 	            <footer>
 	            </footer>
 			</div>

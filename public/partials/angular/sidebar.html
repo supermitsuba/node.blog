@@ -1,23 +1,18 @@
 <img alt="f bomb" src="../img/s128.jpg" />
 <div>
-    <h2>Events</h2>
-    <nav id="Events">
-        <div class="commentPost loading"> 
-			<img alt="loading" src="../img/301.gif" />
-			<div>Loading... Please wait!</div>
-		</div>
-
-    </nav>
-</div>
-<div>
-    <h2>Categories</h2>
-    <nav id="Categories">
-        <div class="commentPost loading">
-			<img alt="loading"  src="../img/301.gif" />
-			<div>Loading... Please wait!</div>
-		</div>
+    <nav>
+        <h2>Events</h2>
+        <ul>
+            <li ng-repeat="event in events">{{ event.EventName }}</li>
+        </ul>
+        <h2>Categories</h2>
+        <ul>
+            <li ng-repeat="category in categories">
+                <a ui-sref="category({categoryName: category.CategoryName})">{{ category.CategoryName }}</a>
+            </li>
+        </ul>
     </nav>
 </div>   
-<div>
+<div style="margin-top:40px;">
 	<input placeholder="Search..." type="text" class="search-query form-control" id="search" />
 </div>  

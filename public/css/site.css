@@ -149,9 +149,10 @@ img.img-right
     text-align: center;
 }
 
-aside.aside-left nav ul
+aside div nav ul li
 {
     list-style-type: none;
+    padding:0; margin:0;
 }
 
 #Events
