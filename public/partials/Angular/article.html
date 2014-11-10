@@ -1,0 +1,18 @@
+<div>
+  <input id="articleId" type="hidden" value="{{article.Id}}" />
+	<a name="top"></a>
+	<p><em>{{article.DateOfArticle}}</em></p>
+	<h1>{{article.Title}}</h1>
+	<!-- Place this tag where you want the +1 button to render. -->
+	
+	<p><strong>by <a href="mailto:supermitsuba@gmail.com">{{article.AuthorName}}</a></strong></p>
+
+	<div class="fb-like" data-href="http://<%=url%>/title/<%= urlName %>" data-send="true" data-layout="button_count" data-width="450" data-font="arial"></div>
+
+	<a style="float:right;" href="https://twitter.com/share" class="twitter-share-button" data-url="<%=url%>/title/<%= urlName %>">Tweet</a>
+	
+	<div class="g-plusone" data-href="/title/<%= urlName %>"></div>
+
+	<p><a href='#comments'>Comment Section</a></p>
+	<div>{{article.Summary}}</div>
+</div>

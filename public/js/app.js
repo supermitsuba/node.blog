@@ -55,6 +55,23 @@ routerApp.config(function($stateProvider, $urlRouterProvider) {
                     }
                 }
             }
+        })
+        .state('article', {
+            url: '/articles/:articleId',
+            views : {
+                'content': {
+                    templateUrl: '/partials/angular/article.html',
+                    controller: function($scope, $stateParams, $http) {
+                        // get the id
+                        var url = "/api/articles/" + $stateParams.articleId; 
+                        $http.get(url).success(function (data, status, headers, config) {
+                            $scope.article = data;
+                        }).error(function (data, status, headers, config) {
+                            $scope.article = [];
+                        }); 
+                    }
+                }
+            }
         });
         
         
