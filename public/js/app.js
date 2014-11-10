@@ -13,29 +13,11 @@ routerApp.config(function($stateProvider, $urlRouterProvider) {
             views : {
                 'content': {
                     templateUrl: '/partials/angular/home.html',
-                    controller: function($scope, $http) {
-                        $http.get("/api/articles").success(function (data, status, headers, config) {
-                            $scope.articles = data._embedded["fbomb:articles"];
-                        }).error(function (data, status, headers, config) {
-                            $scope.articles = [];
-                        });
-                    }
+                    controller: 'homeContentController'
                 },
                 'sidebar': {
                     templateUrl: '/partials/angular/sidebar.html',
-                    controller: function($scope, $http) {
-                        $http.get("/api/categories").success(function (data, status, headers, config) {
-                            $scope.categories = data._embedded["fbomb:categories"];
-                        }).error(function (data, status, headers, config) {
-                            $scope.categories = [{'CategoryType':'Loading...'}];
-                        });
-
-                        $http.get("/api/events?current=true").success(function (data, status, headers, config) {
-                            $scope.events = data._embedded["fbomb:events"];
-                        }).error(function (data, status, headers, config) {
-                            $scope.events = [{'EventName':'Loading...'}];
-                        });
-                    }
+                    controller: 'sidebarController'
                 }
             }            
         })
@@ -44,15 +26,11 @@ routerApp.config(function($stateProvider, $urlRouterProvider) {
             views : {
                 'content': {
                     templateUrl: '/partials/angular/home.html',
-                    controller: function($scope, $stateParams, $http) {
-                        // get the id
-                        var url = "/api/articles?category=" + $stateParams.categoryName; 
-                        $http.get(url).success(function (data, status, headers, config) {
-                            $scope.articles = data._embedded["fbomb:articles"];
-                        }).error(function (data, status, headers, config) {
-                            $scope.articles = [];
-                        }); 
-                    }
+                    controller: 'homeContentController'
+                },
+                'sidebar': {
+                    templateUrl: '/partials/angular/sidebar.html',
+                    controller: 'sidebarController'
                 }
             }
         })
@@ -61,18 +39,51 @@ routerApp.config(function($stateProvider, $urlRouterProvider) {
             views : {
                 'content': {
                     templateUrl: '/partials/angular/article.html',
-                    controller: function($scope, $stateParams, $http) {
-                        // get the id
-                        var url = "/api/articles/" + $stateParams.articleId; 
-                        $http.get(url).success(function (data, status, headers, config) {
-                            $scope.article = data;
-                        }).error(function (data, status, headers, config) {
-                            $scope.article = [];
-                        }); 
-                    }
+                    controller: 'articleContentController'
+                },
+                'sidebar': {
+                    templateUrl: '/partials/angular/sidebar.html',
+                    controller: 'sidebarController'
                 }
             }
-        });
-        
-        
+        });        
 });
+
+
+routerApp
+    .controller('sidebarController', function($scope, $http) {
+        $http.get("/api/categories").success(function (data, status, headers, config) {
+            $scope.categories = data._embedded["fbomb:categories"];
+        }).error(function (data, status, headers, config) {
+            $scope.categories = [{'CategoryType':'Loading...'}];
+        });
+
+        $http.get("/api/events?current=true").success(function (data, status, headers, config) {
+            $scope.events = data._embedded["fbomb:events"];
+        }).error(function (data, status, headers, config) {
+            $scope.events = [{'EventName':'Loading...'}];
+        });
+    })
+    .controller('homeContentController', function($scope, $stateParams, $http) {
+        var category = $stateParams.categoryName;
+        var url = "/api/articles";
+
+        if(category !== null && category !== '' && category !== undefined) {
+            url += "?category="+ category;
+        }
+
+        $http.get(url).success(function (data, status, headers, config) {
+            $scope.articles = data._embedded["fbomb:articles"];
+        }).error(function (data, status, headers, config) {
+            $scope.articles = [];
+        }); 
+    })
+    .controller('articleContentController', function($scope, $stateParams, $http) {
+        // get the id
+        var url = "/api/articles/" + $stateParams.articleId; 
+        $http.get(url).success(function (data, status, headers, config) {
+            $scope.article = data;
+        }).error(function (data, status, headers, config) {
+            $scope.article = [];
+        }); 
+    });
