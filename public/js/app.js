@@ -1,4 +1,16 @@
-var routerApp = angular.module('fbombcode', ['ui.router']);
+jQuery.fn.prettify = function () { this.html(prettyPrintOne(this.html())); };
+
+//load twitter async
+!function (d, s, id) { var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https'; if (!d.getElementById(id)) { js = d.createElement(s); js.id = id; js.src = p + '://platform.twitter.com/widgets.js'; fjs.parentNode.insertBefore(js, fjs); } }(document, 'script', 'twitter-wjs');
+
+//load google plus async
+(function () {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+})();
+
+var routerApp = angular.module('fbombcode', ['ui.router', 'ngSanitize']);
 routerApp.run(function($http){
     $http.defaults.headers.common.Accept = 'application/vnd.hal+json';
 });
@@ -44,6 +56,10 @@ routerApp.config(function($stateProvider, $urlRouterProvider) {
                 'sidebar': {
                     templateUrl: '/partials/angular/sidebar.html',
                     controller: 'sidebarController'
+                },
+                'comments@article':{
+                    templateUrl: '/partials/angular/article-comments.html',
+                    controller: 'articleCommentsController'
                 }
             }
         });        
@@ -85,5 +101,14 @@ routerApp
             $scope.article = data;
         }).error(function (data, status, headers, config) {
             $scope.article = [];
+        }); 
+    })
+    .controller('articleCommentsController', function($scope, $stateParams, $http) {
+        // get the id
+        var url = "/api/comments/" + $stateParams.articleId; 
+        $http.get(url).success(function (data, status, headers, config) {
+            $scope.comments = data;
+        }).error(function (data, status, headers, config) {
+            $scope.comments = [];
         }); 
     });

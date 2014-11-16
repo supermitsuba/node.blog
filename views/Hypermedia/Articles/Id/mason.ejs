@@ -6,7 +6,8 @@
     "AuthorName":"<%=article.AuthorName%>",
     "Summary":"<%=article.Summary.trim().replace(/\n/g, "<br />").replace(/\t/g, " ")%>",
     "IsDisabled":"<%=article.IsDisabled%>",
-    "IsCommentEnabled":"<%=article.IsCommentEnabled%>",
+    "IsCommentEnabled":"<%=article.IsCommentEnabled%>",  
+    "Post":"<%=article.Post%>",
     "@links": {
         "self": { "href":"/api/articles/<%=id%>" },
         "fbomb:articlesByCategory":{ "href":"/api/articles?category=<%=article.CategoryType%>" },

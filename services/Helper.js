@@ -91,3 +91,42 @@ function Retry(myFunction, value1, dataProvider) {
 }
 
 exports.curiesLink = [{ "name": "fbomb", "href": "http://fbombcode.com/api/documentation/#{rel}", "templated": true }];
+    
+exports.isArray = isArray;    
+function isArray(value) {
+    return Object.prototype.toString.call(value) === '[object Array]';
+};
+
+exports.isObject = isObject;
+function isObject(value) {
+    return Object.prototype.toString.call(value) === '[object Object]';
+};
+
+exports.escapeEntities = escapeEntities;
+function escapeEntities(str) {
+    return str.replace(/[&<>]/g, function(key) {
+        return entitiesMap[key];
+    });
+}
+
+exports.escapeJSON = escapeJSON;
+function escapeJSON(data) {
+    var length, key, i;
+    if (isObject(data)) {
+        for (key in data) {
+            if (data.hasOwnProperty(key)) {
+                if (typeof data[key] === 'object') {
+                    escapeJSON(data[key]);
+                } else if (typeof data[key] === 'string') {
+                    data[key] = escapeEntities(data[key]);
+                }
+            }
+        }
+        return;
+    }
+    if (isArray(data)) {
+        for (i = 0, length = data.length; i < length; i++) {
+            escapeJSON(data[i]);
+        }
+    }
+};

@@ -181,6 +181,11 @@ function GetArticleById(req, res){
         res.setHeader("Access-Control-Allow-Origin", "*");
         res.header("Content-Type", "application/json");
 
+        var post = articles.Post;
+        var summary = articles.Summary;
+        articles.Summary = '';
+        articles.Post = '';
+
         res.format({
             'application/json': function(){
                 //also need to do some paging
@@ -194,7 +199,10 @@ function GetArticleById(req, res){
                                                                 'article':articles,
                                                                 'id':(req.params.id)
                                                             });
-                res.send(payload);
+                var article = JSON.parse(payload);
+                article.properties.Post = post;
+                article.properties.Summary = summary;
+                res.send(article);
                 res.end();
             },
             'application/vnd.api+json': function(){
@@ -204,7 +212,10 @@ function GetArticleById(req, res){
                                                                 'article':articles,
                                                                 'id':(req.params.id)
                                                             });
-                res.send(payload);
+                var article = JSON.parse(payload);
+                article['article'].Post = post;
+                article['article'].Summary = summary;
+                res.send(article);
                 res.end();
             },
             'application/vnd.collection+json': function(){
@@ -214,7 +225,10 @@ function GetArticleById(req, res){
                                                                 'article':articles,
                                                                 'id':(req.params.id)
                                                             });
-                res.send(payload);
+                var article = JSON.parse(payload);
+                article.collection.items[0].data[8].value = post;
+                article.collection.items[0].data[5].value = summary;
+                res.send(article);
                 res.end();
             },
             'application/vnd.hal+json': function(){
@@ -223,7 +237,10 @@ function GetArticleById(req, res){
                                                                 'article':articles,
                                                                 'id':(req.params.id)
                                                             });
-                res.send(payload);
+                var article = JSON.parse(payload);
+                article.Post = post;
+                article.Summary = summary;
+                res.send(article);
                 res.end();
             },
             'application/vnd.mason+json': function(){
@@ -232,7 +249,10 @@ function GetArticleById(req, res){
                                                                 'article':articles,
                                                                 'id':(req.params.id)
                                                             });
-                res.send(payload);
+                var article = JSON.parse(payload);
+                article.Post = post;
+                article.Summary = summary;
+                res.send(article);
                 res.end();
             }
         });

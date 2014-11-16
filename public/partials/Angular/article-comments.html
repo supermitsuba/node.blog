@@ -1,0 +1,15 @@
+
+<div ng-if="comments._embedded['fbomb:comments'].length > 0">
+	<div class="comments">
+		<h3>Comments</h3><a name="comments" /><a href="#top">Top of page</a>
+	</div>
+
+	<div ng-repeat="comment in comments._embedded['fbomb:comments']">
+		<h4>{{comment.Name}} has wrote a message on {{comment.Date}}</h4>
+		<p></p>
+		<pre ng-bind-html="comment.Comment"></pre>
+	</div>
+</div>
+<div ng-if="comments._embedded['fbomb:comments'].length < 1">
+	<h3>No Comments</h3>
+</div>	
