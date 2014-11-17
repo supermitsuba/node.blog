@@ -83,28 +83,36 @@ routerApp
     .controller('homeContentController', function($scope, $stateParams, $http) {
         var category = $stateParams.categoryName;
         var url = "/api/articles";
-
+        $scope.PageTitle = "test";
+        
         if(category !== null && category !== '' && category !== undefined) {
             url += "?category="+ category;
         }
 
         $http.get(url).success(function (data, status, headers, config) {
             $scope.articles = data._embedded["fbomb:articles"];
+            $scope.$root.PageTitle = 'Dropping f bombs on code!';
+            $scope.$root.PageDescription = 'This is links to several articles.  You can also search and filter on the side to the right.  Lastly, if you are looking at what is going on locally in Detroit, check out the event section.';
+            $scope.$root.PageKeywords = '';
         }).error(function (data, status, headers, config) {
             $scope.articles = [];
         }); 
     })
     .controller('articleContentController', function($scope, $stateParams, $http) {
-        // get the id
+        $scope.PageTitle = "test";
+
         var url = "/api/articles/" + $stateParams.articleId; 
         $http.get(url).success(function (data, status, headers, config) {
             $scope.article = data;
+            $scope.$root.PageTitle = data.Title;
+            $scope.$root.PageDescription = data.Summary;
+            $scope.$root.PageKeywords = ', '+data.CategoryType;
         }).error(function (data, status, headers, config) {
             $scope.article = [];
         }); 
     })
     .controller('articleCommentsController', function($scope, $stateParams, $http) {
-        // get the id
+        
         var url = "/api/comments/" + $stateParams.articleId; 
         $http.get(url).success(function (data, status, headers, config) {
             $scope.comments = data;

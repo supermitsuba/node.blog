@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html ng-app="fbombcode">
 	<head>
-	    <title>insert</title>
-	    <meta name="DESCRIPTION" content="insert" />
-	    <meta name="KEYWORDS" content=".NET, CODE, Jorden Lowe, Visual Studio, C#, Node.js, linux, awesome, code, fbombcode" />
+	    <title>{{ PageTitle }}</title>
+	    <meta name="DESCRIPTION" ng-attr-content="{{ PageDescription }}" />
+	    <meta name="KEYWORDS" ng-attr-content="{{'.NET, CODE, Jorden Lowe, Visual Studio, C#, Node.js, linux, awesome, code, fbombcode, f bomb code, open source'+ PageKeywords}}" />
 	    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
 
 		<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.1/normalize.min.css">
