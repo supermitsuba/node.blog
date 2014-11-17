@@ -69,7 +69,10 @@ routerApp.config(function($stateProvider, $urlRouterProvider) {
 routerApp
     .controller('sidebarController', function($scope, $http) {
         $http.get("/api/categories").success(function (data, status, headers, config) {
-            $scope.categories = data._embedded["fbomb:categories"];
+            $scope.categories = data._embedded["fbomb:categories"].filter(function (el) {
+                                  return el.CategoryName != 'AboutMe' && el.CategoryName != 'Project';
+                                });
+
         }).error(function (data, status, headers, config) {
             $scope.categories = [{'CategoryType':'Loading...'}];
         });
