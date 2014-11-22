@@ -12,7 +12,7 @@ jQuery.fn.prettify = function () { this.html(prettyPrintOne(this.html())); };
 
 var routerApp = angular.module('fbombcode', ['ui.router', 'ngSanitize']);
 routerApp.run(function($http){
-    $http.defaults.headers.common.Accept = 'application/vnd.hal+json';
+    $http.defaults.headers.common.Accept = 'application/vnd.hal+json, application/json, text/plain, */*';
 });
 
 routerApp.config(function($stateProvider, $urlRouterProvider) {
