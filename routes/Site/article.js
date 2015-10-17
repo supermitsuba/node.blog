@@ -12,11 +12,11 @@ module.exports = function (app, database, smtp) {
   app.get('/Comments/:blogId/:page', GetArticlesCommentsByPage);
   app.get('/ng', AngularPage);
   dataProvider=database;
-  smtpProvider = smtp;  
+  smtpProvider = smtp;
 };
 
 function AngularPage(req, res){
-    var filePath = 'views/layout.html';
+    var filePath = 'views/alternate/layout.html';
     res.send(helper.LoadFile(filePath));
     res.end();
 };
