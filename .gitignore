@@ -32,3 +32,9 @@ build/Release
 node_modules
 
 .DS_Store
+
+ui/jspm_packages
+ui/bower_components
+.idea
+ui/dist
+ui/build/reports
